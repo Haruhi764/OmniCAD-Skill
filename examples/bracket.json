@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "units": "mm",
+  "title": "教学示例 - 对称底板",
+  "drawing_id": "OMNI-DEMO-01",
+  "font": "simfang.ttf",
+  "layers": {
+    "OBJECT": {"weight": 35},
+    "CENTER": {"weight": 13, "linetype": "CENTER"},
+    "DIMENSION": {"weight": 18},
+    "NOTES": {"weight": 18}
+  },
+  "sheet": {
+    "size_mm": [841,594],
+    "left_margin": 25,
+    "edge_margin": 10,
+    "scale_denominator": 1,
+    "view_center": [100,60],
+    "architectural_ticks": true
+  },
+  "entities": [
+    {"id":"outline","type":"polyline","layer":"OBJECT","source":"Synthetic design 200 x 100 mm","points":[[0,0],[200,0],[200,100],[0,100]],"closed":true},
+    {"id":"hole-left","type":"circle","layer":"OBJECT","source":"Synthetic design R10, x=40","center":[40,50],"radius":10},
+    {"id":"hole-right","type":"circle","layer":"OBJECT","source":"Synthetic mirror x=100","center":[160,50],"radius":10},
+    {"id":"axis","type":"line","layer":"CENTER","source":"Synthetic symmetry axis","start":[100,-12],"end":[100,112]},
+    {"id":"width","type":"linear_dimension","layer":"DIMENSION","source":"Synthetic overall envelope width","start":[0,0],"end":[200,0],"base":[0,-24],"expected":200},
+    {"id":"description","type":"text","layer":"NOTES","source":"Original example label","insert":[0,124],"height":4,"text":"对称孔位示例"}
+  ],
+  "requirements": [
+    {"id":"Q01","scope":"required","source":"Synthetic design brief","statement":"Preserve measured outline, holes and native dimension","entities":["outline","hole-left","hole-right","width"]},
+    {"id":"Q02","scope":"required","source":"Synthetic print brief","statement":"Inspect Chinese glyphs, layout and plot strokes","entities":["description"],"visual":true},
+    {"id":"Q03","scope":"excluded","source":"Synthetic scope confirmation","statement":"Separate section sheet","decision":"The example supplies a single plan sheet; a section sheet was not ordered."}
+  ]
+}
