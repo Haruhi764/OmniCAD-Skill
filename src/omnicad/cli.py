@@ -9,7 +9,7 @@ from xml.etree.ElementTree import ParseError
 
 import ezdxf
 
-from . import dxf, intake, records
+from . import dxf, intake, intent, mechanical, oqa, pdfquality, records
 from .backend import AutoCAD
 from .formal import internal_notes
 from .manifest import load
@@ -40,6 +40,7 @@ def parser():
     q.add_argument("job",type=Path)
     q.add_argument("drawing",type=Path)
     q.add_argument("new_directory",type=Path)
+    q.add_argument("--verify-native",action="store_true",help="Edit and restore representative native objects and independently replot")
     q=s.add_parser("read-dwg",help="Export a trusted local DWG copy via AutoCAD")
     q.add_argument("drawing",type=Path)
     q.add_argument("new_directory",type=Path)
@@ -62,6 +63,32 @@ def parser():
     q.add_argument("log",type=Path)
     for key in ("category","issue","cause","resolution","evidence"):
         q.add_argument("--"+key,required=True)
+    q=s.add_parser("mechanical",help="Compile an explicit shaft or flange recipe into a reviewed job")
+    q.add_argument("recipe",type=Path)
+    q.add_argument("output_job",type=Path)
+    q=s.add_parser("oqa",help="Run discipline-aware engineering QA")
+    q.add_argument("drawing",type=Path,help="DXF or AutoCAD readback")
+    q.add_argument("--mode",choices=oqa.MODES,default="light")
+    q.add_argument("--domain",choices=oqa.DOMAINS,default="general")
+    for flag in ("job","contract","pdf","publication","metrics","report"):
+        q.add_argument("--"+flag,type=Path)
+    q.add_argument("--expect-text",action="append",default=[])
+    q=s.add_parser("intent",help="Inventory intent and unresolved scope before editing")
+    q.add_argument("request",type=Path,help="UTF-8 request text")
+    q.add_argument("--reference",action="append",default=[])
+    q.add_argument("--target")
+    q.add_argument("--region")
+    for flag in ("preserve","constraint","swap"):
+        q.add_argument("--"+flag,action="append",default=[])
+    q.add_argument("--report",type=Path)
+    q=s.add_parser("diff",help="Compare two DXFs from the same drawing lineage")
+    q.add_argument("before",type=Path)
+    q.add_argument("after",type=Path)
+    q.add_argument("--allowlist",type=Path,help="JSON list of reviewed object IDs")
+    q.add_argument("--report",type=Path)
+    q=s.add_parser("repair-pdf",help="Check and repair the supported AutoCAD PageMode defect to a new file")
+    q.add_argument("source",type=Path)
+    q.add_argument("output",type=Path)
     return p
 
 
@@ -81,6 +108,40 @@ def report(job,drawing,pdf=None,review=None,dwg=None):
 
 def run(a):
     command=a.command
+    if command=="mechanical":
+        job=mechanical.compile_recipe(json_input(a.recipe))
+        records.write_json(a.output_job,job)
+        return {"job":str(a.output_job),"entities":len(job["entities"])},0
+    if command=="oqa":
+        result=oqa.inspect(a.drawing,a.mode,a.domain,load(a.job) if a.job else None,
+                           json_input(a.contract) if a.contract else None,a.pdf,
+                           json_input(a.publication) if a.publication else None,a.expect_text,
+                           json_input(a.metrics) if a.metrics else None)
+        if a.report:
+            records.write_json(a.report,result)
+        return result,2 if result["coverage"].get("failed") else 0
+    if command=="intent":
+        result=intent.analyze(a.request.read_text(encoding="utf-8-sig"),a.reference,a.target,a.region,
+                              a.preserve,a.constraint,a.swap)
+        if a.report:
+            records.write_json(a.report,result)
+        return result,2 if result["missing"] else 0
+    if command=="diff":
+        allowed=json_input(a.allowlist) if a.allowlist else None
+        if allowed is not None and (not isinstance(allowed,list) or not all(isinstance(v,str) for v in allowed)):
+            raise ValueError("The allowlist must be a JSON list of entity identities")
+        result=intent.compare_drawings(ezdxf.readfile(a.before),ezdxf.readfile(a.after),allowed)
+        result["sha256"]={"before":records.digest(a.before),"after":records.digest(a.after)}
+        if a.report:
+            records.write_json(a.report,result)
+        return result,2 if result["outside_allowlist"] else 0
+    if command=="repair-pdf":
+        if a.source.resolve()==a.output.resolve() or a.output.exists():
+            raise ValueError("Use a new PDF output path")
+        result=pdfquality.repair_plot(a.source,a.output)
+        if result["state"]=="unchanged":
+            records.copy_new(a.source,a.output)
+        return result|{"output":str(a.output)},0
     if command=="intake":
         content=intake.inspect(a.source,a.cache)
         return (content if a.full else {"cache_hit":content["cache_hit"],"cache_file":content["path"],
@@ -153,7 +214,7 @@ def run(a):
                 import pypdf  # required for independent PDF validation
             except ImportError as e:
                 raise ValueError("PDF publication verification requires the [intake] extra") from e
-        output=AutoCAD().publish(a.drawing,a.new_directory,job.get("sheet"))
+        output=AutoCAD().publish(a.drawing,a.new_directory,job.get("sheet"),verify_native=a.verify_native)
         result=report(job,Path(output["readback"]),Path(output["pdf"]) if output["pdf"] else None,dwg=Path(output["dwg"]))
         result["autocad"]=output
         records.write_json(a.new_directory/"report.json",result)
@@ -165,7 +226,7 @@ def main(argv=None):
     a=parser().parse_args(argv)
     try:
         result,status=run(a)
-    except (ValueError,KeyError,TypeError,RuntimeError,OSError,ezdxf.DXFError,subprocess.SubprocessError,BadZipFile,ParseError) as e:
+    except (ValueError,KeyError,TypeError,RuntimeError,OSError,ImportError,ezdxf.DXFError,subprocess.SubprocessError,BadZipFile,ParseError) as e:
         print(f"omnicad: {e}",file=sys.stderr)
         return 1
     # ASCII survives legacy Windows consoles. Saved UTF-8 reports retain all original text.

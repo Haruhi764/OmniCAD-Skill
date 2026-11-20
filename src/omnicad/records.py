@@ -59,6 +59,7 @@ def trace(job,audit,artifacts,reviews=None):
 
 def revise(job,doc,drawing,changes,outdir):
     from .dxf import audit, indexed, save_new
+    from .intent import snapshot
     from ezdxf.math import Matrix44
 
     if digest(drawing)!=changes["input_sha256"]:
@@ -68,6 +69,7 @@ def revise(job,doc,drawing,changes,outdir):
     specs={e["id"]:e for e in expected["entities"]}
     if not changes["operations"]:
         raise ValueError("Revision has no operations")
+    before=snapshot(doc)
     chosen=set()
     if not clean(audit(doc,job)):
         raise ValueError("Baseline failed preflight; revisions require a matching OmniCAD drawing")
@@ -79,7 +81,7 @@ def revise(job,doc,drawing,changes,outdir):
         chosen.add(key)
         s,e=specs[key],indexed_entities[key]
         kind=operation["op"]
-        if kind=="move" and s["type"]!="linear_dimension":
+        if kind=="move" and s["type"] in {"line","circle","arc","polyline","text"}:
             dx,dy=point(operation["delta"],"delta")
             # Dimension anchors are separate specifications; changes that would orphan
             # their geometry need a new manifest and a reviewed redraw of those dimensions.
@@ -101,6 +103,11 @@ def revise(job,doc,drawing,changes,outdir):
     report=audit(doc,expected)
     if not clean(report):
         raise ValueError(f"Revision failed QA: {report}")
+    after=snapshot(doc)
+    allowed={"Model:"+key for key in chosen}
+    changed={key for key in before.keys()|after.keys() if before.get(key)!=after.get(key)}
+    if changed-allowed:
+        raise ValueError(f"Revision changed entities outside scope: {sorted(changed-allowed)}")
     outdir.mkdir()  # must be new; no write to source directory contents
     backup=outdir/"baseline.dxf"
     copy_new(drawing,backup)
@@ -108,7 +115,7 @@ def revise(job,doc,drawing,changes,outdir):
     save_new(doc,outdir/"revised.dxf")
     write_json(outdir/"job.json",expected)
     write_json(outdir/"revision.json",{"changes":changes,"baseline_sha256":digest(backup),
-                                     "revised_sha256":digest(outdir/"revised.dxf"),"qa":report})
+                                     "revised_sha256":digest(outdir/"revised.dxf"),"scope_diff":sorted(changed),"qa":report})
 
 
 def copy_new(source, destination):

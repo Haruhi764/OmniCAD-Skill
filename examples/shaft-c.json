@@ -1,0 +1,77 @@
+{
+  "kind": "stepped_shaft",
+  "units": "mm",
+  "title": "Transmission shaft · Benchmark C",
+  "drawing_id": "C-01",
+  "source": "Synthetic benchmark C parameters",
+  "material": "Material: steel grade 45",
+  "total_length": 240,
+  "lands": [
+    {
+      "diameter": 25,
+      "length": 35
+    },
+    {
+      "diameter": 35,
+      "length": 45,
+      "fit": "h6",
+      "ra": 1.6
+    },
+    {
+      "diameter": 45,
+      "length": 80
+    },
+    {
+      "diameter": 35,
+      "length": 45,
+      "fit": "h6",
+      "ra": 1.6
+    },
+    {
+      "diameter": 25,
+      "length": 35
+    }
+  ],
+  "thread": {
+    "diameter": 24,
+    "pitch": 1.5,
+    "length": 20
+  },
+  "chamfers": {
+    "left": 1,
+    "right": 1
+  },
+  "fillets": [
+    {
+      "after": 2,
+      "radius": 2
+    },
+    {
+      "after": 3,
+      "radius": 2
+    }
+  ],
+  "keyway": {
+    "land": 3,
+    "start": 92.5,
+    "length": 55,
+    "width": 14,
+    "depth": 5.5
+  },
+  "local_section": true,
+  "centre_holes": {
+    "designation": "ISO 6411-A 2.5/5.3"
+  },
+  "runout": {
+    "datum": "A",
+    "datum_land": 2,
+    "controlled_land": 4,
+    "value": 0.02
+  },
+  "general_ra": 3.2,
+  "required_formats": [
+    "dxf",
+    "dwg",
+    "pdf"
+  ]
+}

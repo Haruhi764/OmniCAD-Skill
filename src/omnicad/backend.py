@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Protocol
 
 from .dxf import LAYOUT
-from .records import copy_new
+from .records import copy_new, digest
 
 
 class CadBackend(Protocol):
@@ -91,10 +91,65 @@ def layout_to_pdf(c,pdf,sheet):
     return name
 
 
+def plot(c, target):
+    original = c.GetVariable("BACKGROUNDPLOT")
+    try:
+        c.SetVariable("BACKGROUNDPLOT", 0)
+        if not c.Plot.PlotToFile(str(target), "DWG To PDF.pc3") or target.stat().st_size == 0:
+            raise RuntimeError("AutoCAD did not write a valid-sized PDF")
+    finally:
+        c.SetVariable("BACKGROUNDPLOT", original)
+
+
+def edit_samples(c):
+    from pythoncom import VT_ARRAY, VT_DISPATCH, VT_R8
+    from win32com.client import VARIANT
+
+    point = lambda x: VARIANT(VT_ARRAY | VT_R8, (x, 0., 0.))
+    accepted = {"AcDbLine", "AcDbCircle", "AcDbArc", "AcDbPolyline", "AcDbText", "AcDbMText",
+                "AcDbHatch", "AcDbRotatedDimension", "AcDbAlignedDimension", "AcDbFcf"}
+    verified = {}
+    pick = c.SelectionSets.Add("OmniCADVerification")
+    try:
+        model = c.ModelSpace
+        for i in range(model.Count):
+            e = model.Item(i)
+            kind = e.ObjectName
+            if kind not in accepted or kind in verified:
+                continue
+            pick.AddItems(VARIANT(VT_ARRAY | VT_DISPATCH, (e,)))
+            if pick.Count != 1:
+                raise RuntimeError(f"Could not select {kind}")
+            if kind == "AcDbFcf":
+                previous = e.TextString
+                changed = previous + " "
+                try:
+                    e.TextString = changed
+                    ok = e.TextString == changed
+                finally:
+                    e.TextString = previous
+                ok = ok and e.TextString == previous
+            else:
+                previous = e.GetBoundingBox()[0][0]
+                try:
+                    e.Move(point(0), point(.5))
+                    ok = abs(e.GetBoundingBox()[0][0]-previous-.5) < 1e-5
+                finally:
+                    e.Move(point(.5), point(0))
+                ok = ok and abs(e.GetBoundingBox()[0][0]-previous) < 1e-5
+            if not ok:
+                raise RuntimeError(f"Native edit and restore failed: {kind}")
+            verified[kind] = e.Handle
+            pick.Clear()
+    finally:
+        pick.Delete()
+    return verified
+
+
 class AutoCAD:
     """AutoCAD is launched/attached only when this adapter is invoked explicitly."""
 
-    def publish(self,seed,destination,sheet):
+    def publish(self,seed,destination,sheet,verify_native=False):
         destination=destination.resolve()
         destination.mkdir()
         work=destination/"working.dxf"
@@ -116,19 +171,34 @@ class AutoCAD:
         count=c.ModelSpace.Count
         if c.ReadOnly:
             raise RuntimeError("New DWG reopened read-only")
-        if sheet:
-            original=c.GetVariable("BACKGROUNDPLOT")
+        output = {"dwg":str(dwg),"pdf":str(pdf) if sheet else None,"readback":str(export),
+                  "editable_reopened":True,"model_entities":count,"media":media}
+        try:
+            if sheet:
+                from .pdfquality import repair_plot
+
+                raw = destination/"raw-plot.pdf"
+                plot(c,raw)
+                output["pdf_structure_repair"] = repair_plot(raw,pdf)
+                if not pdf.exists():
+                    copy_new(raw,pdf)
+            if verify_native:
+                output["edit_samples"] = edit_samples(c)
+                c.Close(False)
+                c = open_exact(app,dwg)
+                if sheet:
+                    replot = destination/"independent.pdf"
+                    plot(c,replot)
+                    output["replot"] = str(replot)
+                    output["replot_sha256"] = digest(replot)
+            c.SaveAs(str(export),65)
+            c = active(app,export)
+        finally:
             try:
-                c.SetVariable("BACKGROUNDPLOT",0)
-                if not c.Plot.PlotToFile(str(pdf),"DWG To PDF.pc3") or pdf.stat().st_size==0:
-                    raise RuntimeError("AutoCAD did not write a valid-sized PDF")
+                c.Close(False)
             finally:
-                active(app,dwg).SetVariable("BACKGROUNDPLOT",original)
-        active(app,dwg).SaveAs(str(export),65)  # ac2018_dxf
-        active(app,export).Close(False)
-        active(app,work).Close(False)
-        return {"dwg":str(dwg),"pdf":str(pdf) if sheet else None,"readback":str(export),
-                "editable_reopened":True,"model_entities":count,"media":media}
+                active(app,work).Close(False)
+        return output
 
     def readback(self,source,destination):
         """Export a trusted local DWG copy; leave the original unchanged."""

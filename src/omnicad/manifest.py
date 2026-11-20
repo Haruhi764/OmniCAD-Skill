@@ -1,6 +1,7 @@
 """Validate explicit drafting inputs without inferring geometry from prose."""
 import json
 import math
+import re
 from pathlib import Path
 
 
@@ -33,6 +34,8 @@ def nonempty(value, at):
 
 
 def validate(data):
+    from .annotations import TYPES, validate as validate_annotation
+
     if data.get("version") != 1 or data.get("units") != "mm":
         raise InvalidJob("Expected manifest version 1 and units mm")
     formats=data.get("required_formats",["dxf"])
@@ -66,12 +69,14 @@ def validate(data):
         key = nonempty(entity["id"], "entity id")
         if len(key.encode("utf8")) > 200:
             raise InvalidJob(f"{key}: identifier too long for XDATA")
-        if key in entities or entity["type"] not in KINDS or entity["layer"] not in layers:
+        if key in entities or entity["type"] not in (KINDS | TYPES.keys()) or entity["layer"] not in layers:
             raise InvalidJob(f"{key}: duplicate ID, invalid entity type or unknown layer")
         nonempty(entity["source"], f"{key}.source")
         entities[key] = entity
         kind = entity["type"]
-        if kind in {"line", "linear_dimension"}:
+        if kind in TYPES:
+            validate_annotation(entity, tolerance)
+        elif kind in {"line", "linear_dimension"}:
             a, b = (point(entity[k], f"{key}.{k}") for k in ("start", "end"))
             if math.dist(a,b) <= tolerance:
                 raise InvalidJob(f"{key}: coincident endpoints")
@@ -79,6 +84,10 @@ def validate(data):
                 point(entity["base"], f"{key}.base")
                 number(entity.get("angle",0), f"{key}.angle")
                 number(entity["expected"], f"{key}.expected", 0)
+                if "display" in entity:
+                    display = nonempty(entity["display"], f"{key}.display")
+                    if not re.fullmatch(r"%%c<>(?: [A-Za-z][0-9]{1,2})?", display):
+                        raise InvalidJob(f"{key}: diameter display must preserve the native measurement")
         elif kind in {"circle", "arc"}:
             point(entity["center"], f"{key}.center")
             number(entity["radius"], f"{key}.radius", 0)

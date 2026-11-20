@@ -8,6 +8,7 @@ import ezdxf
 from ezdxf import bbox
 
 from .manifest import validate
+from . import annotations
 
 APPID="OMNICAD"
 LAYOUT="OMNICAD_SHEET"
@@ -38,6 +39,7 @@ def rectangle(space, corners, layer):
 def build(job):
     validate(job)
     d=ezdxf.new("R2018")
+    d.header["$LASTSAVEDBY"] = ""
     d.units=4
     d.header["$PSLTSCALE"]=0
     d.header["$MEASUREMENT"]=1
@@ -53,7 +55,9 @@ def build(job):
     for spec in job["entities"]:
         a={"layer":spec["layer"]}
         kind=spec["type"]
-        if kind=="line":
+        if kind in annotations.TYPES:
+            entity=annotations.draw(m,spec,a,job.get("sheet",{}).get("scale_denominator",1))
+        elif kind=="line":
             entity=m.add_line(spec["start"],spec["end"],dxfattribs=a)
         elif kind=="circle":
             entity=m.add_circle(spec["center"],spec["radius"],dxfattribs=a)
@@ -66,9 +70,11 @@ def build(job):
         else:
             sheet=job.get("sheet",{})
             scale=sheet.get("scale_denominator",1)
-            override={"dimtxt":2.5*scale,"dimasz":1.8*scale,"dimtxsty":FONT_STYLE,"dimdec":2}
+            override={"dimtxt":2.5*scale,"dimasz":1.8*scale,"dimtxsty":FONT_STYLE,"dimdec":2,"dimdsep":46,"dimzin":8}
             if sheet.get("architectural_ticks",False):
                 override["dimblk"]="ARCHTICK"
+            if "display" in spec:
+                override["dimpost"] = spec["display"]
             dim=m.add_linear_dim(base=spec["base"],p1=spec["start"],p2=spec["end"],
                                  angle=spec.get("angle",0),override=override,dxfattribs=a)
             dim.render()
@@ -119,11 +125,13 @@ def compare(spec, entity, tol):
             return math.dist(tuple(actual)[:len(expected)], tuple(expected))<=tol
         return abs(actual-expected)<=tol
 
-    if entity.dxftype()!=TYPE_NAMES[spec["type"]] or entity.dxf.layer.casefold()!=spec["layer"].casefold():
+    if entity.dxftype()!=(TYPE_NAMES | annotations.TYPES)[spec["type"]] or entity.dxf.layer.casefold()!=spec["layer"].casefold():
         return ["type or layer"]
     if entity.dxf.color!=256 or entity.dxf.lineweight!=-1 or entity.dxf.linetype.upper()!="BYLAYER":
         return ["ByLayer properties"]
     kind=spec["type"]
+    if kind in annotations.TYPES:
+        return annotations.compare(spec, entity, close)
     attrs={"line":[("start","start"),("end","end")],
            "linear_dimension":[("defpoint2","start"),("defpoint3","end")],
            "circle":[("center","center"),("radius","radius")],
@@ -144,6 +152,8 @@ def compare(spec, entity, tol):
     if kind=="linear_dimension":
         if not close(entity.get_measurement(),spec["expected"]) or entity.dxf.text not in ("","<>"):
             bad.append("dimension measurement or override")
+        if (entity.override().get("dimpost") or "") != spec.get("display", ""):
+            bad.append("dimension prefix or fit")
         if abs((entity.dxf.angle-spec.get("angle",0)+180)%360-180)>1e-6:
             bad.append("dimension angle")
     return bad

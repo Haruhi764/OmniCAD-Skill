@@ -1,0 +1,51 @@
+{
+  "kind": "stepped_shaft",
+  "units": "mm",
+  "title": "Stepped shaft · Benchmark A",
+  "drawing_id": "A-01",
+  "source": "Synthetic benchmark A parameters",
+  "total_length": 180,
+  "lands": [
+    {
+      "diameter": 25,
+      "length": 40
+    },
+    {
+      "diameter": 35,
+      "length": 90
+    },
+    {
+      "diameter": 20,
+      "length": 50
+    }
+  ],
+  "chamfers": {
+    "left": 2,
+    "right": 2
+  },
+  "fillets": [
+    {
+      "after": 1,
+      "radius": 1
+    },
+    {
+      "after": 2,
+      "radius": 1
+    }
+  ],
+  "keyway": {
+    "land": 2,
+    "start": 60,
+    "length": 50,
+    "width": 10,
+    "depth": 5,
+    "ends": "flat"
+  },
+  "plan": true,
+  "left_view": true,
+  "required_formats": [
+    "dxf",
+    "dwg",
+    "pdf"
+  ]
+}

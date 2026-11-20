@@ -1,20 +1,23 @@
 # OmniCAD-Skill
 
-OmniCAD is a local Codex skill and CLI for evidence-led, editable 2D CAD drafting. It links each requirement to its source, the native drawing entities, and the evidence for the delivered file.
+Editable 2D CAD drafting and evidence-led verification for local Codex and CLI workflows.
 
-Requires Python 3.10+. Use an isolated virtual environment. Native DWG and PDF publication requires licensed AutoCAD on Windows, its PDF plot configuration and suitable fonts. PNG previews require local Poppler.
+[中文](README.md) · [V1.1 workflows](references/v11.md) · [Validation](references/validation.md) · [Changelog](CHANGELOG.md)
 
-```text
-python -m pip install ".[intake,autocad]"
-omnicad build examples/bracket.json sample.dxf
-omnicad audit examples/bracket.json sample.dxf --report draft.json
-omnicad publish examples/bracket.json sample.dxf sample-release
-omnicad preview sample-release/sheet.pdf review.png
-python -m unittest discover -s tests -v
-```
+OmniCAD accepts explicit, reviewed geometry. Architectural and civil jobs use editable DXF manifests and discipline-specific OQA checks. Mechanical recipes add stepped shafts and boss flanges with keyways, shoulder fillets, chamfers, conventional threads, sections, fits, runout and surface texture annotations.
 
-Build and revision work without AutoCAD. Local intake inventories supported PDFs, DXFs, DWGs, DOCX files, images and UTF-8 texts and caches by content digest. Drafting requires explicit dimensions and entities in a reviewed manifest. OCR, generalized DWG editing, 3D and BIM are outside V1.
+Requires Python 3.10+. Native DWG/PDF publication uses licensed Windows AutoCAD and its PDF plot configuration. PNG previews use Poppler.
 
-Audit includes explicit dimension measurements, layer settings, viewport fit and evidence-linked scope decisions. The COM adapter reopens a native DWG, plots its layout and exports an independent readback DXF. Visual approval is separate and bound to artifact hashes. The revision tool applies targeted changes to an OmniCAD-owned DXF with a verified backup.
+    python -m pip install ".[intake,autocad]"
+    omnicad mechanical examples/shaft-c.json job.json
+    omnicad build job.json drawing.dxf
+    omnicad oqa drawing.dxf --job job.json --domain mechanical --mode standard
+    omnicad publish job.json drawing.dxf publication --verify-native
 
-The [skill entry point](SKILL.md), [manifest reference](references/manifest.md) and [native publishing workflow](references/workflow.md) describe installation and use. See [validation](references/validation.md) and [provenance](references/provenance.md) for test status and release conditions. The repository ships synthetic examples only.
+Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex. The [bracket manifest](examples/bracket.json) is still supported.
+
+![Native AutoCAD plotting of the synthetic transmission shaft](examples/previews/shaft-c.png)
+
+OQA separates automated, native and manual evidence. Revisions can use same-lineage DXF comparisons and an explicit scope allowlist. Native DWG work uses an AutoCAD copy. Engineering design judgment, arbitrary DWG patching, OCR/vectorization, BIM, 3D and other vendor adapters are outside the current release.
+
+Contributions should include a synthetic reproduction and existing regression tests. The project uses the [MIT license](LICENSE). Dependencies retain their own licenses and are not redistributed. See [provenance](references/provenance.md).

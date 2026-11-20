@@ -1,6 +1,16 @@
 # Validation and case-study findings
 
-## Local evidence
+## V1.1 regression
+
+| Area | Actual evidence | Scope |
+|---|---|---|
+| Offline | 27 unittest cases pass locally on Windows/Python 3.12. Tests include all V1.0 cases plus A/B/C geometry, malformed input, stale evidence, scope changes, architecture/civil role checks and strict PDF repair. | Linux and additional Python versions are covered by the repository CI matrix. |
+| Native | AutoCAD 2023 reopened the existing synthetic bracket and three mechanical recipe outputs. A/B/C native samples were selected, moved or edited, and restored. The readback geometry audit passed and the second plot matched the first page visually and by render. | Other CAD releases and physical printing remain unverified. |
+| PDF | The original C plot reproduced the duplicate Catalog PageMode failure. Normalized copies passed strict parsing, retained vector pages and rendered identically to the raw driver outputs. | The first viewer mode is retained. Other PDF defects need review. |
+| Architecture and civil | A prior architectural DWG readback was checked locally without editing it. Synthetic wall/opening/axis and elevation/section contracts ran against editable DXF entities. | Engineering completeness, commercial civil commands and arbitrary legacy edits remain outside this evidence. |
+| OQA | The native publication audit used exact artifact hashes. The workflow keeps source scope, confirmed visual evidence and unverified engineering questions separate. | Reports count covered checks. No independent grade or token savings estimate is claimed. |
+
+## V1.0 local evidence
 
 | Level | Evidence |
 |---|---|

@@ -1,0 +1,25 @@
+{
+  "kind": "boss_flange",
+  "units": "mm",
+  "title": "Boss flange · Benchmark B",
+  "drawing_id": "B-01",
+  "source": "Synthetic benchmark B parameters",
+  "diameter": 160,
+  "thickness": 18,
+  "boss_diameter": 80,
+  "boss_height": 12,
+  "bore": 50,
+  "overall_height": 30,
+  "bolts": {
+    "count": 6,
+    "phase_degrees": 0,
+    "pcd": 120,
+    "diameter": 12
+  },
+  "edge_chamfer": 2,
+  "required_formats": [
+    "dxf",
+    "dwg",
+    "pdf"
+  ]
+}
