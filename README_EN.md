@@ -16,7 +16,11 @@
 
 **Generate, revise and verify editable 2D engineering CAD drawings with Codex or the command line.**
 
-[中文](README.md) · [V1.1 workflows](references/v11.md) · [Validation](references/validation.md) · [Changelog](CHANGELOG.md)
+
+
+## One skill, three drafting disciplines
+
+![Architecture, civil engineering and mechanical drafting — schematic icons](assets/omnicad-disciplines.svg)
 
 OmniCAD accepts explicit, reviewed geometry. Architectural and civil jobs use editable DXF manifests and discipline-specific OQA checks. Mechanical recipes add stepped shafts and boss flanges with keyways, shoulder fillets, chamfers, conventional threads, sections, fits, runout and surface texture annotations.
 
@@ -30,13 +34,15 @@ Review geometry and dimensions, generate editable drawings, select appropriate c
 
 Requires Python 3.10+. Native DWG/PDF publication uses licensed Windows AutoCAD and its PDF plot configuration. PNG previews use Poppler.
 
-    git clone https://github.com/Haruhi764/OmniCAD-Skill.git
-    cd OmniCAD-Skill
-    python -m pip install ".[intake,autocad]"
-    omnicad mechanical examples/shaft-c.json job.json
-    omnicad build job.json drawing.dxf
-    omnicad oqa drawing.dxf --job job.json --domain mechanical --mode standard
-    omnicad publish job.json drawing.dxf publication --verify-native
+```bash
+git clone https://github.com/Haruhi764/OmniCAD-Skill.git
+cd OmniCAD-Skill
+python -m pip install ".[intake,autocad]"
+omnicad mechanical examples/shaft-c.json job.json
+omnicad build job.json drawing.dxf
+omnicad oqa drawing.dxf --job job.json --domain mechanical --mode standard
+omnicad publish job.json drawing.dxf publication --verify-native
+```
 
 Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex. The [bracket manifest](examples/bracket.json) is still supported.
 
