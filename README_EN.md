@@ -8,13 +8,13 @@
   <a href="https://github.com/Haruhi764/OmniCAD-Skill/forks"><img src="https://img.shields.io/github/forks/Haruhi764/OmniCAD-Skill?style=flat-square" alt="Forks"></a>
 </p>
 
-<h1 align="center">OmniCAD-Skill</h1>
+<h1 align="center">OmniCAD-Skill — AI CAD Automation &amp; Automatic CAD Drawing</h1>
 
 <p align="center"><strong>Editable engineering drawings. Verifiable results.</strong></p>
 
 <p align="center"><a href="README.md">中文</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">Workflow</a> · <a href="references/validation.md">Validation</a> · <a href="CHANGELOG.md">Changelog</a></p>
 
-**Generate, revise and verify editable 2D engineering CAD drawings with Codex or the command line.**
+**Open-source AutoCAD automation and AI CAD drawing skill for Codex and AI agents.** Generate, revise and verify editable 2D engineering CAD drawings with Codex or the command line. OmniCAD supports DXF generation, engineering drafting and native DWG/PDF publication in supported Windows AutoCAD environments.
 
 
 
@@ -65,7 +65,12 @@ Install the folder containing [SKILL.md](SKILL.md) in a supported local skill di
 
 OQA separates automated, native and manual evidence. Revisions can use same-lineage DXF comparisons and an explicit scope allowlist. Native DWG work uses an AutoCAD copy. Engineering design judgment, arbitrary DWG patching, OCR/vectorization, BIM, 3D and other vendor adapters are outside the current release.
 
-## FAQ
+## AI CAD automation FAQ
+
+- **How can I automate CAD drawing with AI?** Use the Codex skill or CLI to convert reviewed geometry into editable DXF and run the documented verification workflow.
+- **Can Codex automate AutoCAD?** OmniCAD supports native saving, readback and PDF plotting in supported Windows AutoCAD environments.
+- **Is this an AI engineering drawing tool?** Yes, for the documented 2D architectural, civil and mechanical drafting workflows; engineering design judgment remains outside its scope.
+
 
 - **Without AutoCAD?** Basic DXF generation and checks are available independently.
 - **Which review mode?** Light for routine structure, standard for discipline evidence, full for available native and rendering comparisons.
