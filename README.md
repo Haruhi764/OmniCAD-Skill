@@ -1,6 +1,18 @@
-# OmniCAD-Skill · AI CAD 自动化
+<p align="center"><img src="assets/omnicad-banner.svg" alt="OmniCAD — editable 2D CAD and evidence-led verification" width="100%"></p>
 
-[![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](pyproject.toml) [![Agent Skill](https://img.shields.io/badge/Agent-Skill-green)](SKILL.md)
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-1683b8?style=flat-square" alt="MIT"></a>
+  <a href="pyproject.toml"><img src="https://img.shields.io/badge/Python-3.10%2B-1683b8?style=flat-square" alt="Python 3.10+"></a>
+  <a href="SKILL.md"><img src="https://img.shields.io/badge/Agent-Codex-1683b8?style=flat-square" alt="Codex"></a>
+  <a href="https://github.com/Haruhi764/OmniCAD-Skill/stargazers"><img src="https://img.shields.io/github/stars/Haruhi764/OmniCAD-Skill?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/Haruhi764/OmniCAD-Skill/forks"><img src="https://img.shields.io/github/forks/Haruhi764/OmniCAD-Skill?style=flat-square" alt="Forks"></a>
+</p>
+
+<h1 align="center">OmniCAD-Skill</h1>
+
+<p align="center"><strong>让 AI 参与可编辑工程制图，让每一次交付都有据可查。</strong></p>
+
+<p align="center"><a href="README_EN.md">English</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">工作流</a> · <a href="references/validation.md">验收记录</a> · <a href="CHANGELOG.md">更新日志</a></p>
 
 **可编辑 2D CAD 制图与证据验收。** 将经过确认的几何和修改范围转成可编辑 CAD，保留尺寸、来源和验收依据。
 
@@ -19,6 +31,12 @@
 - 自动检查、原生 CAD 实测与人工复核分开记录。
 - 明确修改范围，保留尺寸与来源证据。
 - 按任务选择 light、standard 或 full 验收模式。
+
+## 从需求到交付
+
+![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
+
+确认几何与尺寸 → 生成可编辑图纸 → 按需验收 → 在支持的环境中交付 DXF、DWG 或 PDF。
 
 ## 安装与快速开始
 
