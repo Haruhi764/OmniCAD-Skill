@@ -18,6 +18,12 @@
 
 
 
+## 自动绘图演示
+
+<p align="center"><img src="assets/OmniCAD-light(1).gif" alt="OmniCAD 自动绘制法兰工程图演示" width="100%"></p>
+
+<p align="center"><sub>真实 OmniCAD 生成的 DXF 几何动画回放与 OQA 验收展示，非 AutoCAD 实时录屏。</sub></p>
+
 ## 一个 Skill，三类工程制图
 
 ![Architecture, civil engineering and mechanical drafting — schematic icons](assets/omnicad-disciplines.svg)
