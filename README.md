@@ -8,13 +8,15 @@
   <a href="https://github.com/Haruhi764/OmniCAD-Skill/forks"><img src="https://img.shields.io/github/forks/Haruhi764/OmniCAD-Skill?style=flat-square" alt="Forks"></a>
 </p>
 
-<h1 align="center">OmniCAD-Skill</h1>
+<h1 align="center">OmniCAD-Skill — AI CAD 自动绘图与 AutoCAD 自动化</h1>
 
 <p align="center"><strong>让 AI 参与可编辑工程制图，让每一次交付都有据可查。</strong></p>
 
 <p align="center"><a href="README_EN.md">English</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">工作流</a> · <a href="references/validation.md">验收记录</a> · <a href="CHANGELOG.md">更新日志</a></p>
 
-**可编辑 2D CAD 制图与证据验收。** 将经过确认的几何和修改范围转成可编辑 CAD，保留尺寸、来源和验收依据。
+**开源 AI CAD 自动绘图工具（AI CAD Automation / Automatic CAD Drawing）。** OmniCAD 是面向 Codex 和 AI Agent 的 CAD Skill，支持二维工程制图、可编辑 DXF 生成，以及在受支持的 Windows AutoCAD 环境中保存 DWG 和输出 PDF。将经过确认的几何和修改范围转成可编辑 CAD，保留尺寸、来源和验收依据。
+
+**English:** Open-source Codex CAD skill for AI-assisted 2D CAD drawing, AutoCAD automation, DXF generation and engineering drafting with evidence-led verification. [English documentation](README_EN.md).
 
 
 
@@ -81,7 +83,12 @@ omnicad publish work-c.json work-c.dxf native-c --verify-native
 
 Windows AutoCAD 2023 的验证范围和已知边界见[验证记录](references/validation.md)。后续可扩展其他 CAD 版本和更丰富的专业实体比对，需附真实回归证据。
 
-## 常见问题
+## CAD 自动绘图常见问题（FAQ）
+
+- 如何使用 AI 自动绘制 CAD 工程图？通过 Codex Skill 或 CLI 将已确认的几何参数转换为可编辑 DXF，再执行验收流程，具体见上方快速开始。
+- 如何用 AI 自动化 AutoCAD？在支持的 Windows AutoCAD 环境中使用原生保存、回读和 PDF 出图流程；不需要将图纸仅作为图片交付。
+- AI CAD 自动绘图适合哪些工程？当前覆盖建筑、土木和机械的受支持二维制图场景，具体范围见上方能力表。
+
 
 - 没有 AutoCAD？基础 DXF 生成与检查可以独立运行。
 - 支持图片自动矢量化或三维建模？当前不支持。
