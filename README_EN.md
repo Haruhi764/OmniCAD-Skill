@@ -24,6 +24,15 @@
 
 OmniCAD accepts explicit, reviewed geometry. Architectural and civil jobs use editable DXF manifests and discipline-specific OQA checks. Mechanical recipes add stepped shafts and boss flanges with keyways, shoulder fillets, chamfers, conventional threads, sections, fits, runout and surface texture annotations.
 
+## Real drawing examples
+
+Native AutoCAD 2023 plots from reproducible synthetic repository inputs, not concept renders.
+
+| Transmission shaft | Boss flange |
+| :---: | :---: |
+| ![Shaft](examples/previews/shaft-c.png) | ![Flange](examples/previews/flange-b.png) |
+| [Reproduce](examples/shaft-c.json) | [Reproduce](examples/flange-b.json) |
+
 ## From intent to delivery
 
 ![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
@@ -46,14 +55,6 @@ omnicad publish job.json drawing.dxf publication --verify-native
 
 Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex. The [bracket manifest](examples/bracket.json) is still supported.
 
-## Real drawing examples
-
-![Native AutoCAD plotting of the synthetic transmission shaft](examples/previews/shaft-c.png)
-
-![Native AutoCAD plotting of the synthetic boss flange](examples/previews/flange-b.png)
-
-Reproduce the [shaft](examples/shaft-c.json) or [flange](examples/flange-b.json) from repository inputs.
-
 ## Evidence-led quality assurance and limitations
 
 OQA separates automated, native and manual evidence. Revisions can use same-lineage DXF comparisons and an explicit scope allowlist. Native DWG work uses an AutoCAD copy. Engineering design judgment, arbitrary DWG patching, OCR/vectorization, BIM, 3D and other vendor adapters are outside the current release.
@@ -67,3 +68,9 @@ OQA separates automated, native and manual evidence. Revisions can use same-line
 ## Contributing
 
 Contributions should include a synthetic reproduction and existing regression tests. The project uses the [MIT license](LICENSE). Dependencies retain their own licenses and are not redistributed. See [provenance](references/provenance.md).
+
+---
+
+<p align="center"><img src="assets/omnicad-logo.svg" width="48" alt="OmniCAD logo"></p>
+<p align="center"><strong>OmniCAD · Draft / Verify / Deliver</strong></p>
+<p align="center"><a href="CONTRIBUTING.md">Contribute</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/issues">Report an issue</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/releases">Releases</a></p>
