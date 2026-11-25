@@ -39,6 +39,26 @@ Native AutoCAD 2023 plots from reproducible synthetic repository inputs, not con
 | ![Shaft](examples/previews/shaft-c.png) | ![Flange](examples/previews/flange-b.png) |
 | [Reproduce](examples/shaft-c.json) | [Reproduce](examples/flange-b.json) |
 
+## Application scenarios and case experience
+
+Anonymized summaries of prior drafting tasks, not publicly reproducible acceptance tests or engineering compliance certifications. Original client drawings, parameters and identifying information are not published.
+
+| Scenario | Drafting and review focus |
+|---|---|
+| Industrial workshop layouts | Building outlines, equipment footprints, functional zones, doors, windows and material flow |
+| Process flow diagrams | Equipment symbols, process sequence, consistent identifiers and connectivity |
+| Roof drainage drawings | Watershed boundaries, catchment zones, slope directions, drainage outlets and dimensions |
+
+The mechanical examples above remain the publicly reproducible synthetic tests. Project-specific review is required.
+
+## Roadmap and community feedback
+
+- Current: editable 2D CAD delivery and evidence-led OQA.
+- Next: explore AutoCAD LT compatibility, subject to documented release and test results.
+- Longer term: explore SolidWorks mechanical modeling and Revit BIM workflows; not integrated into the current release.
+
+Share your CAD version, feature requests or sanitized reproductions via [Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues). If OmniCAD is useful to you, consider starring or sharing the project.
+
 ## From intent to delivery
 
 ![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
