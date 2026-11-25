@@ -53,6 +53,26 @@
 | ![阶梯轴](examples/previews/shaft-c.png) | ![法兰](examples/previews/flange-b.png) |
 | [复现参数](examples/shaft-c.json) | [复现参数](examples/flange-b.json) |
 
+## 应用场景与案例经验
+
+以下为过往制图任务涉及的匿名场景摘要，不是公开可复现的验收样例，也不代表工程合规认证。原始客户图纸、参数和身份信息不公开。
+
+| 应用场景 | 制图与复核重点 |
+|---|---|
+| 工业车间平面布置 | 建筑轮廓、设备俯视轮廓、功能分区、门窗及物流方向 |
+| 工艺流程图 | 设备符号、工艺顺序、编号一致性与流程连通 |
+| 建筑屋面排水图 | 分水线、汇水分区、坡向、雨水口及尺寸标注 |
+
+上方机械示例仍是可公开复现的合成测试。实际项目需要按输入资料逐项复核，不能将案例经验视为通用自动设计能力。
+
+## 开发路线与社区反馈
+
+- 当前：完善二维 CAD 绘图、可编辑交付及 OQA 验收。
+- 下一阶段：探索 AutoCAD LT 兼容路径，以正式发布说明及实测结果为准。
+- 长期：探索 SolidWorks 机械建模与 Revit BIM 工作流，尚未集成到当前版本。
+
+正在使用 AutoCAD、AutoCAD LT 或其他工程软件？欢迎在 [Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues) 分享软件版本、希望支持的功能和脱敏复现。如果项目对你有帮助，欢迎 Star 或分享给同领域的朋友。
+
 ## 从需求到交付
 
 ![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
