@@ -14,35 +14,15 @@
 
 <p align="center"><a href="README_EN.md">English</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">工作流</a> · <a href="references/validation.md">验收记录</a> · <a href="CHANGELOG.md">更新日志</a></p>
 
-**开源 AI CAD 自动绘图工具（AI CAD Automation / Automatic CAD Drawing）。** OmniCAD 是面向 Codex 和 AI Agent 的 CAD Skill，支持二维工程制图、可编辑 DXF 生成，以及在受支持的 Windows AutoCAD 环境中保存 DWG 和输出 PDF。将经过确认的几何和修改范围转成可编辑 CAD，保留尺寸、来源和验收依据。
+OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据明确的尺寸和绘图要求生成可编辑 DXF，并在支持的 AutoCAD 环境中输出 DWG 和 PDF。
 
-**English:** Open-source Codex CAD skill for AI-assisted 2D CAD drawing, AutoCAD automation, DXF generation and engineering drafting with evidence-led verification. [English documentation](README_EN.md).
-
-
+[快速安装](#安装与快速开始) · [使用说明](SKILL.md) · [更新日志](CHANGELOG.md)
 
 ## 自动绘图演示
 
 <p align="center"><img src="assets/OmniCAD-light(1).gif" alt="OmniCAD 自动绘制法兰工程图演示" width="100%"></p>
 
 <p align="center"><sub>真实 OmniCAD 生成的 DXF 几何动画回放与 OQA 验收展示，非 AutoCAD 实时录屏。</sub></p>
-
-## 一个 Skill，三类工程制图
-
-![Architecture, civil engineering and mechanical drafting — schematic icons](assets/omnicad-disciplines.svg)
-
-| 场景 | 可用能力 |
-|---|---|
-| 建筑 | 按明确轴网、墙线、门窗和标注生成原生 DXF。用受复核的清单检查坐标、图层、尺寸和布局。 |
-| 土木 | 按输入绘制二维构件和剖面元素，核验轴线、标高、几何及注释。 |
-| 机械 | 参数化阶梯轴和带凸台法兰。支持轴肩圆角、端部倒角、简化外螺纹、键槽、剖面、配合、圆跳动与粗糙度标注。 |
-| 交付 | Windows AutoCAD 原生保存、重开与回读。A3/A1 PDF 出图、严格结构检查及可选重打对照。 |
-
-## 核心优势
-
-- 可编辑 DXF，而非仅生成图纸截图。
-- 自动检查、原生 CAD 实测与人工复核分开记录。
-- 明确修改范围，保留尺寸与来源证据。
-- 按任务选择 light、standard 或 full 验收模式。
 
 ## 实际制图案例
 
@@ -53,31 +33,14 @@
 | ![阶梯轴](examples/previews/shaft-c.png) | ![法兰](examples/previews/flange-b.png) |
 | [复现参数](examples/shaft-c.json) | [复现参数](examples/flange-b.json) |
 
-## 应用场景与案例经验
+其他实践方向：工业车间布置、工艺流程图、建筑屋面排水图。客户图纸暂不公开。
 
-以下为过往制图任务涉及的匿名场景摘要，不是公开可复现的验收样例，也不代表工程合规认证。原始客户图纸、参数和身份信息不公开。
+## 目前支持
 
-| 应用场景 | 制图与复核重点 |
-|---|---|
-| 工业车间平面布置 | 建筑轮廓、设备俯视轮廓、功能分区、门窗及物流方向 |
-| 工艺流程图 | 设备符号、工艺顺序、编号一致性与流程连通 |
-| 建筑屋面排水图 | 分水线、汇水分区、坡向、雨水口及尺寸标注 |
-
-上方机械示例仍是可公开复现的合成测试。实际项目需要按输入资料逐项复核，不能将案例经验视为通用自动设计能力。
-
-## 开发路线与社区反馈
-
-- 当前：完善二维 CAD 绘图、可编辑交付及 OQA 验收。
-- 下一阶段：探索 AutoCAD LT 兼容路径，以正式发布说明及实测结果为准。
-- 长期：探索 SolidWorks 机械建模与 Revit BIM 工作流，尚未集成到当前版本。
-
-正在使用 AutoCAD、AutoCAD LT 或其他工程软件？欢迎在 [Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues) 分享软件版本、希望支持的功能和脱敏复现。如果项目对你有帮助，欢迎 Star 或分享给同领域的朋友。
-
-## 从需求到交付
-
-![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
-
-确认几何与尺寸 → 生成可编辑图纸 → 按需验收 → 在支持的环境中交付 DXF、DWG 或 PDF。
+- 建筑、土木二维制图：轴网、墙线、门窗、构件及标注。
+- 机械制图：阶梯轴、法兰、剖面、键槽、倒角及公差标注。
+- DXF 局部修改、差异检查与 OQA 验收。
+- Windows AutoCAD 原生 DWG 保存与 PDF 出图。
 
 ## 安装与快速开始
 
@@ -95,28 +58,20 @@ omnicad publish work-c.json work-c.dxf native-c --verify-native
 
 在 Codex 中使用 Skill 时，将含 [SKILL.md](SKILL.md) 的目录安装到受支持的本地技能目录。CLI 与 Skill 可以分别使用。复用已验证的 [通用支架示例](examples/bracket.json) 时，从 `build` 开始。验收包含人工项目，`publish` 会为缺失的必填视觉证据保留待复核状态。
 
-## 验收与修改范围
+## 开发计划
 
-- `light` 处理日常结构检查。`standard` 增加专业清单、尺寸证据和文字检查。`full` 补充可用的原生编辑、布局渲染与重打比对。
-- `intent` 记录参考图、目标文件、可改区域、应保留信息和缺口。`diff` 检查同一来源的 DXF 前后差异。`revise` 支持自有 DXF 的受限修改、备份和恢复。
-- 自动验证、AutoCAD 实测与人工复核分开。项目不会由工程领域名称推断缺失尺寸、套用公差或给出工程合规结论。现有 DWG 的通用编辑仍须使用可信的 CAD 副本。本版未实现 OCR 自动矢量化、BIM、3D 或其他 CAD 厂商适配。
+- [x] AutoCAD 二维绘图与验收
+- [ ] AutoCAD LT 兼容
+- [ ] SolidWorks 建模与装配
+- [ ] Revit BIM 建模
 
-Windows AutoCAD 2023 的验证范围和已知边界见[验证记录](references/validation.md)。后续可扩展其他 CAD 版本和更丰富的专业实体比对，需附真实回归证据。
+后续功能尚未集成，具体支持范围见 [验证记录](references/validation.md)。
 
-## CAD 自动绘图常见问题（FAQ）
+## 反馈与贡献
 
-- 如何使用 AI 自动绘制 CAD 工程图？通过 Codex Skill 或 CLI 将已确认的几何参数转换为可编辑 DXF，再执行验收流程，具体见上方快速开始。
-- 如何用 AI 自动化 AutoCAD？在支持的 Windows AutoCAD 环境中使用原生保存、回读和 PDF 出图流程；不需要将图纸仅作为图片交付。
-- AI CAD 自动绘图适合哪些工程？当前覆盖建筑、土木和机械的受支持二维制图场景，具体范围见上方能力表。
+欢迎提交 [Issue](https://github.com/Haruhi764/OmniCAD-Skill/issues)，附软件版本及脱敏复现。详细工作流见 [V1.1 文档](references/v11.md)，贡献方式见 [CONTRIBUTING.md](CONTRIBUTING.md)。目前不支持任意 DWG 自动修改、图片自动矢量化或三维建模；工程设计仍需人工复核。
 
-
-- 没有 AutoCAD？基础 DXF 生成与检查可以独立运行。
-- 支持图片自动矢量化或三维建模？当前不支持。
-- 如何反馈？在 [Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues) 提供脱敏复现、软件版本与实际结果。
-
-## 贡献与许可
-
-用合成样例提交最小复现，并运行 `python -m unittest discover -s tests -v`。私有资料留在 Git 忽略的 `.local` 内。[MIT 许可证](LICENSE)适用于本项目原创代码，第三方工具与依赖按各自许可使用。[来源和许可](references/provenance.md)
+项目采用 [MIT 许可证](LICENSE)，第三方许可见 [来源说明](references/provenance.md)。如果这个项目对你有帮助，欢迎 Star。
 
 ---
 
