@@ -1,12 +1,30 @@
-# OmniCAD-Skill — AI CAD Automation
+<p align="center"><img src="assets/omnicad-banner.svg" alt="OmniCAD — editable 2D CAD and evidence-led verification" width="100%"></p>
 
-[![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](pyproject.toml) [![Agent Skill](https://img.shields.io/badge/Agent-Skill-green)](SKILL.md)
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-1683b8?style=flat-square" alt="MIT"></a>
+  <a href="pyproject.toml"><img src="https://img.shields.io/badge/Python-3.10%2B-1683b8?style=flat-square" alt="Python 3.10+"></a>
+  <a href="SKILL.md"><img src="https://img.shields.io/badge/Agent-Codex-1683b8?style=flat-square" alt="Codex"></a>
+  <a href="https://github.com/Haruhi764/OmniCAD-Skill/stargazers"><img src="https://img.shields.io/github/stars/Haruhi764/OmniCAD-Skill?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/Haruhi764/OmniCAD-Skill/forks"><img src="https://img.shields.io/github/forks/Haruhi764/OmniCAD-Skill?style=flat-square" alt="Forks"></a>
+</p>
+
+<h1 align="center">OmniCAD-Skill</h1>
+
+<p align="center"><strong>Editable engineering drawings. Verifiable results.</strong></p>
+
+<p align="center"><a href="README.md">中文</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">Workflow</a> · <a href="references/validation.md">Validation</a> · <a href="CHANGELOG.md">Changelog</a></p>
 
 **Generate, revise and verify editable 2D engineering CAD drawings with Codex or the command line.**
 
 [中文](README.md) · [V1.1 workflows](references/v11.md) · [Validation](references/validation.md) · [Changelog](CHANGELOG.md)
 
 OmniCAD accepts explicit, reviewed geometry. Architectural and civil jobs use editable DXF manifests and discipline-specific OQA checks. Mechanical recipes add stepped shafts and boss flanges with keyways, shoulder fillets, chamfers, conventional threads, sections, fits, runout and surface texture annotations.
+
+## From intent to delivery
+
+![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
+
+Review geometry and dimensions, generate editable drawings, select appropriate checks, and deliver DXF or supported native DWG/PDF.
 
 ## Quick start
 
