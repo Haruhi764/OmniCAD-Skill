@@ -36,6 +36,15 @@
 - 明确修改范围，保留尺寸与来源证据。
 - 按任务选择 light、standard 或 full 验收模式。
 
+## 实际制图案例
+
+真实 AutoCAD 2023 出图，使用仓库中的合成参数，可复现而非概念渲染。
+
+| 阶梯传动轴 | 带凸台法兰 |
+| :---: | :---: |
+| ![阶梯轴](examples/previews/shaft-c.png) | ![法兰](examples/previews/flange-b.png) |
+| [复现参数](examples/shaft-c.json) | [复现参数](examples/flange-b.json) |
+
 ## 从需求到交付
 
 ![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
@@ -58,14 +67,6 @@ omnicad publish work-c.json work-c.dxf native-c --verify-native
 
 在 Codex 中使用 Skill 时，将含 [SKILL.md](SKILL.md) 的目录安装到受支持的本地技能目录。CLI 与 Skill 可以分别使用。复用已验证的 [通用支架示例](examples/bracket.json) 时，从 `build` 开始。验收包含人工项目，`publish` 会为缺失的必填视觉证据保留待复核状态。
 
-## 实际制图案例
-
-下图来自仓库合成参数在 AutoCAD 2023 中的实际出图。可用同一参数复现[阶梯传动轴](examples/shaft-c.json)和[带凸台法兰](examples/flange-b.json)。
-
-![AutoCAD 出图的阶梯传动轴示例](examples/previews/shaft-c.png)
-
-![AutoCAD 出图的带凸台法兰示例](examples/previews/flange-b.png)
-
 ## 验收与修改范围
 
 - `light` 处理日常结构检查。`standard` 增加专业清单、尺寸证据和文字检查。`full` 补充可用的原生编辑、布局渲染与重打比对。
@@ -83,3 +84,9 @@ Windows AutoCAD 2023 的验证范围和已知边界见[验证记录](references/
 ## 贡献与许可
 
 用合成样例提交最小复现，并运行 `python -m unittest discover -s tests -v`。私有资料留在 Git 忽略的 `.local` 内。[MIT 许可证](LICENSE)适用于本项目原创代码，第三方工具与依赖按各自许可使用。[来源和许可](references/provenance.md)
+
+---
+
+<p align="center"><img src="assets/omnicad-logo.svg" width="48" alt="OmniCAD logo"></p>
+<p align="center"><strong>OmniCAD · Draft / Verify / Deliver</strong></p>
+<p align="center"><a href="CONTRIBUTING.md">参与贡献</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/issues">问题反馈</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/releases">版本下载</a></p>
