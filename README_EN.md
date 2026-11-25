@@ -18,6 +18,12 @@
 
 
 
+## Drawing showcase
+
+<p align="center"><img src="assets/OmniCAD-light(1).gif" alt="OmniCAD automated flange drafting showcase" width="100%"></p>
+
+<p align="center"><sub>Actual OmniCAD-generated DXF geometry, animated replay with OQA evidence; not a live AutoCAD recording.</sub></p>
+
 ## One skill, three drafting disciplines
 
 ![Architecture, civil engineering and mechanical drafting — schematic icons](assets/omnicad-disciplines.svg)
