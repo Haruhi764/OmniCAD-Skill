@@ -16,7 +16,11 @@
 
 **可编辑 2D CAD 制图与证据验收。** 将经过确认的几何和修改范围转成可编辑 CAD，保留尺寸、来源和验收依据。
 
-[English](README_EN.md) · [V1.1 工作流](references/v11.md) · [验证记录](references/validation.md) · [更新日志](CHANGELOG.md)
+
+
+## 一个 Skill，三类工程制图
+
+![Architecture, civil engineering and mechanical drafting — schematic icons](assets/omnicad-disciplines.svg)
 
 | 场景 | 可用能力 |
 |---|---|
@@ -42,13 +46,15 @@
 
 需要 Python 3.10+。建议使用独立虚拟环境。纯 DXF 使用基础包即可。PDF、图片预检使用 `intake` 附加依赖。原生 DWG/PDF 依赖 Windows、已授权 AutoCAD、可用的出图设置和字体。Poppler 用于 PDF 渲染。
 
-    git clone https://github.com/Haruhi764/OmniCAD-Skill.git
-    cd OmniCAD-Skill
-    python -m pip install ".[intake,autocad]"
-    omnicad mechanical examples/shaft-c.json work-c.json
-    omnicad build work-c.json work-c.dxf
-    omnicad oqa work-c.dxf --job work-c.json --domain mechanical --mode standard
-    omnicad publish work-c.json work-c.dxf native-c --verify-native
+```bash
+git clone https://github.com/Haruhi764/OmniCAD-Skill.git
+cd OmniCAD-Skill
+python -m pip install ".[intake,autocad]"
+omnicad mechanical examples/shaft-c.json work-c.json
+omnicad build work-c.json work-c.dxf
+omnicad oqa work-c.dxf --job work-c.json --domain mechanical --mode standard
+omnicad publish work-c.json work-c.dxf native-c --verify-native
+```
 
 在 Codex 中使用 Skill 时，将含 [SKILL.md](SKILL.md) 的目录安装到受支持的本地技能目录。CLI 与 Skill 可以分别使用。复用已验证的 [通用支架示例](examples/bracket.json) 时，从 `build` 开始。验收包含人工项目，`publish` 会为缺失的必填视觉证据保留待复核状态。
 
