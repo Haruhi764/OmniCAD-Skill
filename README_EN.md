@@ -14,21 +14,15 @@
 
 <p align="center"><a href="README.md">中文</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">Workflow</a> · <a href="references/validation.md">Validation</a> · <a href="CHANGELOG.md">Changelog</a></p>
 
-**Open-source AutoCAD automation and AI CAD drawing skill for Codex and AI agents.** Generate, revise and verify editable 2D engineering CAD drawings with Codex or the command line. OmniCAD supports DXF generation, engineering drafting and native DWG/PDF publication in supported Windows AutoCAD environments.
+OmniCAD is an open-source CAD automation skill for Codex. Generate editable DXF from reviewed dimensions and drafting requirements, and publish DWG and PDF in supported AutoCAD environments.
 
-
+[Quick start](#quick-start) · [Skill instructions](SKILL.md) · [Changelog](CHANGELOG.md)
 
 ## Drawing showcase
 
 <p align="center"><img src="assets/OmniCAD-light(1).gif" alt="OmniCAD automated flange drafting showcase" width="100%"></p>
 
 <p align="center"><sub>Actual OmniCAD-generated DXF geometry, animated replay with OQA evidence; not a live AutoCAD recording.</sub></p>
-
-## One skill, three drafting disciplines
-
-![Architecture, civil engineering and mechanical drafting — schematic icons](assets/omnicad-disciplines.svg)
-
-OmniCAD accepts explicit, reviewed geometry. Architectural and civil jobs use editable DXF manifests and discipline-specific OQA checks. Mechanical recipes add stepped shafts and boss flanges with keyways, shoulder fillets, chamfers, conventional threads, sections, fits, runout and surface texture annotations.
 
 ## Real drawing examples
 
@@ -39,31 +33,14 @@ Native AutoCAD 2023 plots from reproducible synthetic repository inputs, not con
 | ![Shaft](examples/previews/shaft-c.png) | ![Flange](examples/previews/flange-b.png) |
 | [Reproduce](examples/shaft-c.json) | [Reproduce](examples/flange-b.json) |
 
-## Application scenarios and case experience
+Other drafting experience includes industrial layouts, process diagrams and roof drainage plans. Client drawings are not public.
 
-Anonymized summaries of prior drafting tasks, not publicly reproducible acceptance tests or engineering compliance certifications. Original client drawings, parameters and identifying information are not published.
+## Features
 
-| Scenario | Drafting and review focus |
-|---|---|
-| Industrial workshop layouts | Building outlines, equipment footprints, functional zones, doors, windows and material flow |
-| Process flow diagrams | Equipment symbols, process sequence, consistent identifiers and connectivity |
-| Roof drainage drawings | Watershed boundaries, catchment zones, slope directions, drainage outlets and dimensions |
-
-The mechanical examples above remain the publicly reproducible synthetic tests. Project-specific review is required.
-
-## Roadmap and community feedback
-
-- Current: editable 2D CAD delivery and evidence-led OQA.
-- Next: explore AutoCAD LT compatibility, subject to documented release and test results.
-- Longer term: explore SolidWorks mechanical modeling and Revit BIM workflows; not integrated into the current release.
-
-Share your CAD version, feature requests or sanitized reproductions via [Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues). If OmniCAD is useful to you, consider starring or sharing the project.
-
-## From intent to delivery
-
-![Reviewed geometry, editable DXF, OQA evidence and delivery](assets/omnicad-workflow.svg)
-
-Review geometry and dimensions, generate editable drawings, select appropriate checks, and deliver DXF or supported native DWG/PDF.
+- Architectural and civil 2D drafting: grids, walls, openings, components and annotations.
+- Mechanical drafting: stepped shafts, flanges, sections, keyways, chamfers and tolerances.
+- Scoped DXF revisions, comparisons and OQA checks.
+- Native DWG and PDF publication with supported Windows AutoCAD.
 
 ## Quick start
 
@@ -81,24 +58,20 @@ omnicad publish job.json drawing.dxf publication --verify-native
 
 Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex. The [bracket manifest](examples/bracket.json) is still supported.
 
-## Evidence-led quality assurance and limitations
+## Roadmap
 
-OQA separates automated, native and manual evidence. Revisions can use same-lineage DXF comparisons and an explicit scope allowlist. Native DWG work uses an AutoCAD copy. Engineering design judgment, arbitrary DWG patching, OCR/vectorization, BIM, 3D and other vendor adapters are outside the current release.
+- [x] AutoCAD 2D drafting and verification
+- [ ] AutoCAD LT compatibility
+- [ ] SolidWorks modeling and assemblies
+- [ ] Revit BIM modeling
 
-## AI CAD automation FAQ
+Planned integrations are not part of the current release. See [validation](references/validation.md) for tested scope.
 
-- **How can I automate CAD drawing with AI?** Use the Codex skill or CLI to convert reviewed geometry into editable DXF and run the documented verification workflow.
-- **Can Codex automate AutoCAD?** OmniCAD supports native saving, readback and PDF plotting in supported Windows AutoCAD environments.
-- **Is this an AI engineering drawing tool?** Yes, for the documented 2D architectural, civil and mechanical drafting workflows; engineering design judgment remains outside its scope.
+## Feedback and contributions
 
+Open an [issue](https://github.com/Haruhi764/OmniCAD-Skill/issues) with your software version and a sanitized reproduction. See the [workflow](references/v11.md) and [contribution guide](CONTRIBUTING.md). Arbitrary DWG editing, image vectorization and 3D modeling are not supported in this release. Engineering judgment requires human review.
 
-- **Without AutoCAD?** Basic DXF generation and checks are available independently.
-- **Which review mode?** Light for routine structure, standard for discipline evidence, full for available native and rendering comparisons.
-- **Report a bug?** Use [Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues) with a synthetic reproduction and software versions.
-
-## Contributing
-
-Contributions should include a synthetic reproduction and existing regression tests. The project uses the [MIT license](LICENSE). Dependencies retain their own licenses and are not redistributed. See [provenance](references/provenance.md).
+[MIT license](LICENSE) · [Third-party provenance](references/provenance.md). Star the project if you find it useful.
 
 ---
 
