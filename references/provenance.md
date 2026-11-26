@@ -14,4 +14,11 @@ The review used locally installed skills, server registration, dependency manife
 
 Dependencies are installed separately. ezdxf uses MIT. The checked distributions of pywin32, pypdf and Pillow report PSF, BSD-3-Clause and MIT-CMU respectively. Poppler is a separate local executable. Dependencies, drivers and fonts retain their own terms. No software binaries, fonts, credentials or customer data are distributed here.
 
+## V1.2 design review
+
+- Local Daihua integration inventory identifies [CAD-MCP](https://github.com/daobataotie/CAD-MCP) at ef26482579424bb564b8b2ccc24f29f133f66fbf (MIT, Copyright (c) 2025 曹瑞), and [cad-skills](https://github.com/delancy827/cad-skills) at 6051169eb3cd39a6539d823261b8519f718828ed (MIT, Copyright (c) 2026 Delancy); integrated by Rain-dust. Reviewed native controller transient COM error handling, fresh attach/document identity, save stages and skill's task-level DXF/native routing. Use the verified approach of exact document binding and bounded transient reads; uncertain writes are stopped, not replayed. No controller or third-party skill code copied. Preserve source license and notice if future reuse goes beyond independent design.
+- Existing OmniCAD deterministic geometry, layer/dimension definitions, manifest and layout placement remain in use. Avoid a new visual/layout optimizer or blind translation from screenshot pixels. Validate actual geometry and direction against reviewed inputs, not extra rendering passes. Original additions use only existing dependencies.
+- The AutoCAD supervisor is an original Python implementation of atomic state, ownership-safe timeouts, locking and artifact-bound checkpoints.
+- Official Autodesk manuals are linked in [LT compatibility](lt-compatibility.md). The separate Experimental tester installs ezdxf and pypdf in its own environment. The ZIP contains a synthetic OmniCAD fixture and the MIT license. Proprietary CAD executables, fonts and third-party dependencies are obtained separately.
+
 The original OmniCAD-Skill project is licensed under the MIT terms in [LICENSE](../LICENSE), with copyright attributed to the OmniCAD-Skill contributors. Review the staged tree and history for credentials, personal paths and client materials before each release. Keep local source paths, fingerprints and test artifacts outside the release.

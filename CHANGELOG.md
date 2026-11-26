@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0
+
+- Bound native AutoCAD jobs with timeouts, per-user locking, fault isolation and hash-verified checkpoints. Confirm the full product in the active COM session.
+- Retry read-only startup checks during transient COM busy states and resolve genuine document proxies by exact path when another tab stays active.
+- Extend acceptance to mechanical, civil, architectural, food-process and workshop-layout drawings. Check directed connections, closure, measured dimensions and evidence-based hard gates.
+- Compare every page of independent print outputs, validate PDF structure and flag internal drawing markers and user-facing metadata for review.
+- Add host diagnostics and an opt-in **Experimental** LT DXF exchange workflow. LT 2027 native verification remains pending. Normal Windows AutoCAD publication uses the full-product COM path.
+- Document side-by-side installation, upgrade, rollback and removal. Provide an installable wheel in the release ZIP and an optional standalone LT test kit.
+
 ## 1.1.0
 
 - Added reviewed stepped-shaft and boss-flange recipes, editable section hatching, diameter/fit dimensions, native circular-runout frames, and vector datum and surface-texture marks.

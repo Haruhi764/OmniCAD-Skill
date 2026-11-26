@@ -18,6 +18,8 @@ OmniCAD is an open-source CAD automation skill for Codex. Generate editable DXF 
 
 [Quick start](#quick-start) · [Skill instructions](SKILL.md) · [Changelog](CHANGELOG.md)
 
+**V1.2.0** adds bounded native jobs, hash-verified checkpoints, acceptance profiles for five drawing disciplines, and page-by-page print comparison. See [installation and compatibility](references/install-v12.md).
+
 ## Drawing showcase
 
 <p align="center"><img src="assets/OmniCAD-light(1).gif" alt="OmniCAD automated flange drafting showcase" width="100%"></p>
@@ -47,21 +49,22 @@ Other drafting experience includes industrial layouts, process diagrams and roof
 Requires Python 3.10+. Native DWG/PDF publication uses licensed Windows AutoCAD and its PDF plot configuration. PNG previews use Poppler.
 
 ```bash
-git clone https://github.com/Haruhi764/OmniCAD-Skill.git
+git clone --branch v1.2.0 --depth 1 https://github.com/Haruhi764/OmniCAD-Skill.git
 cd OmniCAD-Skill
-python -m pip install ".[intake,autocad]"
-omnicad mechanical examples/shaft-c.json job.json
-omnicad build job.json drawing.dxf
-omnicad oqa drawing.dxf --job job.json --domain mechanical --mode standard
-omnicad publish job.json drawing.dxf publication --verify-native
+py -3 -m venv .venv-v120
+.venv-v120/Scripts/python.exe -m pip install ".[intake,autocad]"
+.venv-v120/Scripts/python.exe -m omnicad mechanical examples/shaft-c.json job.json
+.venv-v120/Scripts/python.exe -m omnicad build job.json drawing.dxf
+.venv-v120/Scripts/python.exe -m omnicad oqa drawing.dxf --job job.json --domain mechanical --mode standard
+.venv-v120/Scripts/python.exe -m omnicad publish job.json drawing.dxf publication --verify-native
 ```
 
-Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex. The [bracket manifest](examples/bracket.json) is still supported.
+The [release ZIP](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) includes an installable wheel. Follow the [side-by-side upgrade and rollback guide](references/install-v12.md) if you use V1.1. Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex.
 
 ## Roadmap
 
 - [x] AutoCAD 2D drafting and verification
-- [ ] AutoCAD LT compatibility
+- [ ] AutoCAD LT compatibility (Experimental opt-in DXF exchange, LT 2027 native verification pending)
 - [ ] SolidWorks modeling and assemblies
 - [ ] Revit BIM modeling
 
@@ -69,7 +72,7 @@ Planned integrations are not part of the current release. See [validation](refer
 
 ## Feedback and contributions
 
-Open an [issue](https://github.com/Haruhi764/OmniCAD-Skill/issues) with your software version and a sanitized reproduction. See the [workflow](references/v11.md) and [contribution guide](CONTRIBUTING.md). Arbitrary DWG editing, image vectorization and 3D modeling are not supported in this release. Engineering judgment requires human review.
+Open an [issue](https://github.com/Haruhi764/OmniCAD-Skill/issues) with your software version and a sanitized reproduction. See the [existing workflow](references/v11.md), [V1.2 acceptance guide](references/acceptance-v12.md) and [contribution guide](CONTRIBUTING.md). AutoCAD LT users are invited to try the [Experimental kit](references/lt-compatibility.md). Engineering judgment requires human review.
 
 [MIT license](LICENSE) · [Third-party provenance](references/provenance.md). Star the project if you find it useful.
 

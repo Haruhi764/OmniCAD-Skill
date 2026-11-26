@@ -7,6 +7,8 @@ from typing import Protocol
 
 from .dxf import LAYOUT
 from .records import copy_new, digest
+from .capabilities import session_identity
+from .supervisor import classify
 
 
 class CadBackend(Protocol):
@@ -14,7 +16,21 @@ class CadBackend(Protocol):
         """Return artifacts and independently verified capabilities."""
 
 
-def connect():
+def ready_identity(app):
+    """Wait briefly for read-only COM startup queries. Never replay a CAD write."""
+    for attempt in range(12):
+        try:
+            host = session_identity(app)
+            if host.product == "autocad":
+                _ = app.Documents.Count
+            return host
+        except Exception as exc:
+            if classify(exc) != "busy" or attempt == 11:
+                raise
+            time.sleep(.35)
+
+
+def connect(expected_year=None):
     if sys.platform!="win32":
         raise ValueError("AutoCAD COM requires Windows")
     try:
@@ -23,22 +39,54 @@ def connect():
     except ImportError as e:
         raise ValueError("AutoCAD COM requires the [autocad] extra") from e
     try:
-        return win32com.client.GetActiveObject("AutoCAD.Application")
+        app = win32com.client.GetActiveObject("AutoCAD.Application")
     except pywintypes.com_error as e:
         if e.hresult!=-2147221021:  # MK_E_UNAVAILABLE, no registered running object
             raise
-        return win32com.client.Dispatch("AutoCAD.Application")
+        app = win32com.client.Dispatch("AutoCAD.Application")
+    host = ready_identity(app)
+    if host.product != "autocad":
+        raise RuntimeError("Live host identity is not confirmed full AutoCAD; use DXF exchange")
+    if expected_year is not None and host.year != expected_year:
+        raise RuntimeError("Live AutoCAD release does not match requested release")
+    return app
 
 
 def active(app, expected):
-    last=None
+    """Resolve a verified full path even if AutoCAD keeps a different tab active."""
+    expected_path = expected.resolve()
+
+    def matches(candidate):
+        if candidate is None or Path(candidate.FullName).resolve() != expected_path:
+            return False
+        # Dynamic dispatch can expose FullName on the Open wrapper itself.
+        # Confirm a document-only read before retaining the proxy.
+        _ = candidate.ModelSpace.Count
+        return True
+
+    last = None
     for _ in range(15):
         try:
-            c=app.ActiveDocument
-            if Path(c.FullName).resolve()==expected.resolve():
-                return c
+            candidate = app.ActiveDocument
+            if matches(candidate):
+                return candidate
         except Exception as exc:
-            last=exc
+            if classify(exc) != "busy" and not isinstance(exc, AttributeError):
+                raise
+            last = exc
+        try:
+            documents = app.Documents
+            for index in range(documents.Count):
+                try:
+                    candidate = documents.Item(index)
+                    if matches(candidate):
+                        return candidate
+                except AttributeError as exc:
+                    last = exc
+        except Exception as exc:
+            if classify(exc) != "busy" and not isinstance(exc, AttributeError):
+                raise
+            last = exc
         time.sleep(.4)
     raise RuntimeError(f"Could not bind exact AutoCAD document {expected.name}") from last
 
@@ -50,9 +98,11 @@ def open_exact(app,path):
         try:
             method=app.Documents.Open
             break
-        except AttributeError:
+        except Exception as exc:
+            if not isinstance(exc, AttributeError) and classify(exc) != "busy":
+                raise
             if i==11:
-                raise RuntimeError("AutoCAD Documents.Open is unavailable")
+                raise RuntimeError("AutoCAD Documents.Open is unavailable") from exc
             time.sleep(.4)
     method(str(path.resolve()),False)
     return active(app,path)
@@ -149,12 +199,15 @@ def edit_samples(c):
 class AutoCAD:
     """AutoCAD is launched/attached only when this adapter is invoked explicitly."""
 
+    def __init__(self, expected_year=None):
+        self.expected_year = expected_year
+
     def publish(self,seed,destination,sheet,verify_native=False):
         destination=destination.resolve()
         destination.mkdir()
         work=destination/"working.dxf"
         copy_new(seed,work)
-        app=connect()
+        app=connect(self.expected_year)
         app.Visible=True
         c=open_exact(app,work)
         dwg,pdf,export=(destination/name for name in ("drawing.dwg","sheet.pdf","readback.dxf"))
@@ -165,14 +218,16 @@ class AutoCAD:
         c=active(app,dwg)
         # Keep a known work document open while reopening the saved DWG. Some
         # versions do not expose Documents.Open with AutoCAD Start active.
-        anchor=open_exact(app,work)
+        open_exact(app,work)
         c.Close(False)
         c=open_exact(app,dwg)
         count=c.ModelSpace.Count
         if c.ReadOnly:
             raise RuntimeError("New DWG reopened read-only")
         output = {"dwg":str(dwg),"pdf":str(pdf) if sheet else None,"readback":str(export),
+                  "host":session_identity(app).report(),
                   "editable_reopened":True,"model_entities":count,"media":media}
+        primary_error = None
         try:
             if sheet:
                 from .pdfquality import repair_plot
@@ -193,11 +248,18 @@ class AutoCAD:
                     output["replot_sha256"] = digest(replot)
             c.SaveAs(str(export),65)
             c = active(app,export)
+        except Exception as exc:
+            primary_error = exc
+            raise
         finally:
             try:
-                c.Close(False)
-            finally:
-                active(app,work).Close(False)
+                try:
+                    c.Close(False)
+                finally:
+                    active(app,work).Close(False)
+            except Exception:
+                if primary_error is None:
+                    raise
         return output
 
     def readback(self,source,destination):
@@ -206,7 +268,7 @@ class AutoCAD:
         destination.mkdir()
         work,export=(destination/name for name in ("working.dwg","readback.dxf"))
         copy_new(source,work)
-        app=connect()
+        app=connect(self.expected_year)
         app.Visible=True
         c=open_exact(app,work)
         c.SaveAs(str(export),65)

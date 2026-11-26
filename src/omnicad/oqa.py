@@ -7,7 +7,7 @@ from time import perf_counter
 import ezdxf
 
 from . import dxf, records
-from .formal import drawing_text, internal_notes
+from .formal import drawing_text, internal_notes, pdf_metadata_notes
 from .paper import check_pdf, preview
 from .pdfquality import strict_reader
 
@@ -17,6 +17,8 @@ DOMAINS = {
     "architecture": ("walls", "openings", "axes", "dimensions"),
     "civil": ("geometry", "elevations", "axes", "sections", "components"),
     "mechanical": ("profile", "dimensions", "annotations", "sections"),
+    "food-process": ("equipment", "flow", "labels", "sequence"),
+    "workshop-layout": ("walls", "openings", "axes", "dimensions", "equipment", "routes", "schedule"),
 }
 MODES = {"light": 0, "standard": 1, "full": 2}
 OPAQUE = {"IMAGE", "PDFUNDERLAY", "ACAD_PROXY_ENTITY", "DWFUNDERLAY", "DGNUNDERLAY"}
@@ -31,19 +33,53 @@ def _role_values(matches, spec):
     expected=spec.get("values")
     if field is None and expected is None:
         return {}
-    if field not in {"length","radius","measurement","text"} or not isinstance(expected,list):
+    if field not in {"length","radius","measurement","text","closed","endpoints"} or not isinstance(expected,list):
         raise ValueError("Role values require a field and a list of reviewed expected values")
     supported={"length":{"LINE"},"radius":{"CIRCLE","ARC"},"measurement":{"DIMENSION"},
-               "text":{"TEXT","MTEXT","ATTRIB"}}
+               "text":{"TEXT","MTEXT","ATTRIB"}, "closed":{"LWPOLYLINE","POLYLINE"},
+               "endpoints":{"LINE"}}
     if spec["type"].upper() not in supported[field]:
         raise ValueError(f"{field} is unavailable on {spec['type']}")
     if field=="text":
         actual=sorted(drawing_text(e) for e in matches)
         expected=sorted(expected)
         return {"field":field,"expected_values":expected,"actual_values":actual,"values_ok":actual==expected}
+    if field=="closed":
+        if any(type(x) is not bool for x in expected):
+            raise ValueError("Expected closure values must be boolean")
+        actual=sorted(bool(e.closed if e.dxftype()=="LWPOLYLINE" else e.is_closed) for e in matches)
+        return {"field":field,"expected_values":sorted(expected),"actual_values":actual,
+                "values_ok":actual==sorted(expected)}
     from math import dist, isfinite
 
     tol=spec.get("tolerance",.01)
+    if field=="endpoints":
+        # Keep start/end order; allow only explicit 2D/3D coordinates.
+        def pair(value):
+            if (not isinstance(value,(list,tuple)) or len(value)!=2 or
+                any(not isinstance(p,(list,tuple)) or len(p) not in (2,3) or
+                    any(type(x) not in (int,float) or not isfinite(x) for x in p) for p in value)):
+                raise ValueError("Endpoint values require two finite XY or XYZ points")
+            return tuple(tuple(p)+(0,)*(3-len(p)) for p in value)
+        if type(tol) not in (int,float) or not isfinite(tol) or tol<=0:
+            raise ValueError("Endpoint tolerance must be positive and finite")
+        actual=[(tuple(e.dxf.start),tuple(e.dxf.end)) for e in matches]
+        wanted=[pair(v) for v in expected]
+        # Bipartite matching avoids order-dependent pairing at nearby positions.
+        candidates=[[j for j,(c,d) in enumerate(actual) if dist(a,c)<=tol and dist(b,d)<=tol]
+                    for a,b in wanted]
+        assigned={}
+        def assign(i,seen):
+            for j in candidates[i]:
+                if j in seen:
+                    continue
+                seen.add(j)
+                if j not in assigned or assign(assigned[j],seen):
+                    assigned[j]=i
+                    return True
+            return False
+        ok=len(actual)==len(wanted) and all(assign(i,set()) for i in range(len(wanted)))
+        return {"field":field,"expected_values":wanted,"actual_values":actual,"values_ok":ok}
     if (type(tol) not in (int,float) or not isfinite(tol) or tol<=0 or
         any(type(value) not in (int,float) or not isfinite(value) for value in expected)):
         raise ValueError("Expected role measures and tolerance must be finite")
@@ -104,13 +140,20 @@ def _dimension_duplicates(doc):
 
 def verify_print(first, second, dpi=100):
     from PIL import Image, ImageChops
+    from pypdf import PdfReader
 
+    pages=[len(PdfReader(p,strict=False).pages) for p in (first,second)]
+    if pages[0]!=pages[1] or not pages[0]:
+        return False
     with TemporaryDirectory(prefix=".print-check-",dir=first.parent) as out:
-        pngs=[Path(out)/name for name in ("a.png","b.png")]
-        for pdf,png in zip((first, second),pngs):
-            preview(pdf,png,dpi=dpi)
-        with Image.open(pngs[0]) as a, Image.open(pngs[1]) as b:
-            return a.size==b.size and ImageChops.difference(a.convert("RGB"),b.convert("RGB")).getbbox() is None
+        for page in range(1,pages[0]+1):
+            pngs=[Path(out)/f"{name}-{page}.png" for name in ("a","b")]
+            for pdf,png in zip((first, second),pngs):
+                preview(pdf,png,dpi=dpi,page=page)
+            with Image.open(pngs[0]) as a, Image.open(pngs[1]) as b:
+                if a.size!=b.size or ImageChops.difference(a.convert("RGB"),b.convert("RGB")).getbbox() is not None:
+                    return False
+    return True
 
 
 def validate_publication(publication, drawing, pdf=None):
@@ -133,6 +176,8 @@ def _pdf_checks(pdf, job, expected_text, full):
     try:
         reader=strict_reader(pdf.read_bytes())
         rows.append(_row("pdf_structure","automated","passed",{"pages":len(reader.pages)}))
+        notes=pdf_metadata_notes(reader)
+        rows.append(_row("pdf_user_metadata","automated","failed" if notes else "passed",notes))
     except (PdfReadError,ValueError) as e:
         return [_row("pdf_structure","automated","failed",str(e))]
     if job and "sheet" in job:
@@ -151,11 +196,12 @@ def _pdf_checks(pdf, job, expected_text, full):
         else:
             try:
                 with TemporaryDirectory(prefix=".render-check-",dir=pdf.parent) as out:
-                    preview(pdf,Path(out)/"preview.png")
+                    for page in range(1,len(reader.pages)+1):
+                        preview(pdf,Path(out)/f"preview-{page}.png",page=page)
             except (OSError,SubprocessError) as exc:
                 rows.append(_row("pdf_render","automated","failed",str(exc)))
             else:
-                rows.append(_row("pdf_render","automated","passed","Poppler rendered page 1"))
+                rows.append(_row("pdf_render","automated","passed",f"Poppler rendered {len(reader.pages)} pages"))
         rows.append(_row("pdf_visual_layout","manual","unverified","Inspect glyphs, hierarchy and collisions at output scale"))
     return rows
 

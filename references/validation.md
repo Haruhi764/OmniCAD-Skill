@@ -31,3 +31,9 @@ AutoCAD's tested driver produced a PDF that pypdf read with a nonfatal duplicate
 - The original CAD documents contained incomplete data and cross-document conflicts. Example and tests are fully synthetic so the release can be reviewed without reproducing private drawings. Unit-check rules should be updated only after a failure is reproduced or a new invariant is independently demonstrated.
 
 Run local tests with `python -m unittest discover -s tests -v`. If the system temp directory is restricted, point `OMNICAD_TEST_TMP` at an existing writable test directory. Native smoke testing is opt-in with `python scripts/autocad_smoke.py NEW_OUTPUT_DIRECTORY`. Update the changelog and keep a prior tree or tag before changing rules.
+## V1.2.0 release checks
+
+- Windows Python 3.12 ran 43 offline tests. Coverage included mechanical examples A/B/C, architectural and civil drafting contracts, dimensions, scoped revisions, regression of user-facing PDF metadata, and native job routing and recovery.
+- Full AutoCAD 2023 ran the bracket smoke test through the default Windows COM route. The saved DWG reopened with six model entities. Five object classes passed reversible editing. Checks covered DXF readback, A1 PDF size and structure, an independent matching replot, and visual review of the sample. Startup busy and document proxy issues found during release validation were fixed before the passing run.
+- V1.1.0 and V1.2.0 wheels were installed in separate Windows environments. Both built and audited the sample. Removing and reinstalling V1.2 left the V1.1 CLI usable.
+- AutoCAD LT is Experimental and requires explicit opt-in. LT 2027 native acceptance is pending. See the [LT guide](lt-compatibility.md).
