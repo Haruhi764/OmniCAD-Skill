@@ -16,7 +16,7 @@
 
 OmniCAD is an open-source CAD automation skill for Codex. Generate editable DXF from reviewed dimensions and drafting requirements, and publish DWG and PDF in supported AutoCAD environments.
 
-[Quick start](#quick-start) · [Skill instructions](SKILL.md) · [Changelog](CHANGELOG.md)
+[Quick start](#quick-start) · [Drawing portfolio](#drawing-portfolio) · [Evidence-driven engineering](#evidence-driven-engineering)
 
 **V1.2.0** adds bounded native jobs, hash-verified checkpoints, acceptance profiles for five drawing disciplines, and page-by-page print comparison. See [installation and compatibility](references/install-v12.md).
 
@@ -26,16 +26,17 @@ OmniCAD is an open-source CAD automation skill for Codex. Generate editable DXF 
 
 <p align="center"><sub>Actual OmniCAD-generated DXF geometry, animated replay with OQA evidence; not a live AutoCAD recording.</sub></p>
 
-## Real drawing examples
+## Drawing portfolio
 
-Native AutoCAD 2023 plots from reproducible synthetic repository inputs, not concept renders.
+Native AutoCAD 2023 plots reproduced from synthetic repository inputs. Click either drawing to inspect the original preview.
 
-| Transmission shaft | Boss flange |
+| 01 / Transmission shaft | 02 / Boss flange |
 | :---: | :---: |
-| ![Shaft](examples/previews/shaft-c.png) | ![Flange](examples/previews/flange-b.png) |
-| [Reproduce](examples/shaft-c.json) | [Reproduce](examples/flange-b.json) |
+| [![Stepped shaft engineering drawing](examples/previews/shaft-c.png)](examples/previews/shaft-c.png) | [![Flange engineering drawing](examples/previews/flange-b.png)](examples/previews/flange-b.png) |
+| Stepped profile · sections · dimensions | Circular profile · hole pattern · section |
+| [Source parameters](examples/shaft-c.json) · [Validation](references/validation.md) | [Source parameters](examples/flange-b.json) · [Validation](references/validation.md) |
 
-Other drafting experience includes industrial layouts, process diagrams and roof drainage plans. Client drawings are not public.
+Other practical work includes industrial layouts, process diagrams and roof drainage plans. Private client drawings are not published.
 
 ## Evidence-driven engineering
 
@@ -68,7 +69,18 @@ A drawing can look right while its dimensions are wrong. OmniCAD verifies measur
 
 ## Quick start
 
-Requires Python 3.10+. Native DWG/PDF publication uses licensed Windows AutoCAD and its PDF plot configuration. PNG previews use Poppler.
+**Using Codex? Start here.**
+
+1. Download the [V1.2.0 release ZIP](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) and verify its checksum using the [installation guide](references/install-v12.md).
+2. Install the CLI in a separate Python 3.10+ environment as described in that guide.
+3. Enable the source folder containing [SKILL.md](SKILL.md) in a supported Codex skill directory. Keep only one active version.
+
+[Download release](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) · [Install / upgrade / rollback](references/install-v12.md) · [LT experimental guide](references/lt-compatibility.md)
+
+<details>
+<summary><strong>Developer walkthrough — build, check and publish a reproducible drawing</strong></summary>
+
+Windows example, using Python 3.10+ and a separate virtual environment:
 
 ```bash
 git clone --branch v1.2.0 --depth 1 https://github.com/Haruhi764/OmniCAD-Skill.git
@@ -81,7 +93,9 @@ py -3 -m venv .venv-v120
 .venv-v120/Scripts/python.exe -m omnicad publish job.json drawing.dxf publication --verify-native
 ```
 
-The [release ZIP](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) includes an installable wheel. Follow the [side-by-side upgrade and rollback guide](references/install-v12.md) if you use V1.1. Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex.
+</details>
+
+The base package supports DXF without AutoCAD. PDF and image intake use the `intake` extra; native DWG/PDF requires licensed full Windows AutoCAD and suitable plot settings. Poppler is required for render comparison. Native delivery still requires visual and engineering review.
 
 ## Compatibility at a glance
 
