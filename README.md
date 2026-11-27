@@ -10,7 +10,7 @@
 
 <h1 align="center">OmniCAD-Skill — AI CAD 自动绘图与 AutoCAD 自动化</h1>
 
-<p align="center"><strong>让 AI 参与可编辑工程制图，让每一次交付都有据可查。</strong></p>
+<p align="center"><strong>不止于绘图，更让每一次交付有据可查。</strong></p>
 
 <p align="center"><a href="README_EN.md">English</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">工作流</a> · <a href="references/validation.md">验收记录</a> · <a href="CHANGELOG.md">更新日志</a></p>
 
@@ -37,6 +37,42 @@ OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据
 
 其他实践方向：工业车间布置、工艺流程图、建筑屋面排水图。客户图纸暂不公开。
 
+## 证据驱动 · Evidence-Driven
+
+**看起来画对了，不代表真正通过了验收。**
+
+OmniCAD 将经过确认的工程要求与实际几何、尺寸和出图证据进行比对，而不是依赖 AI 对自己绘图结果的主观判断。
+
+```mermaid
+flowchart LR
+ A[确认需求] --> B[生成可编辑图纸]
+ B --> C[OQA 收集证据]
+ C --> D{验收}
+ D -->|失败| E[修正并复验]
+ E --> B
+ D -->|待确认| F[补充证据]
+ F --> C
+ D -->|通过| G[交付]
+```
+
+| 证据 | 检查内容 |
+| --- | --- |
+| Geometry · 几何 | 实体结构、坐标、长度、半径及闭合 |
+| Dimension · 尺寸 | 实测值与标注显示值是否一致 |
+| Native · 原生 | DWG 重开、可逆编辑与 DXF 回读 |
+| Publication · 出图 | PDF 结构、纸张及独立双次打印对照 |
+| Review · 复核 | 成果哈希、视觉证据与未解决的工程问题 |
+
+**硬性错误不能靠高分抵消，缺少必要证据则保持待验收状态。** 工程合理性仍需人工专业复核。
+
+### 公开证据中心 · V1.2.0
+
+| 43 项离线测试 | AutoCAD 2023 | 5 类专业验收 |
+| :---: | :---: | :---: |
+| Windows / Python 3.12 | 原生支架样例实测 | 机械、土木、建筑、食品工艺、车间布置 |
+
+[实际验证记录](references/validation.md) · [验收规则与复现命令](references/acceptance-v12.md)
+
 ## 目前支持
 
 - 建筑、土木二维制图：轴网、墙线、门窗、构件及标注。
@@ -61,6 +97,16 @@ py -3 -m venv .venv-v120
 
 也可从 [Release](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) 下载含 wheel 的完整 ZIP。已有 V1.1 用户可按[升级与回滚说明](references/install-v12.md) 并行验证新版本。CLI 与 [Codex Skill](SKILL.md) 可分别安装。验收包含人工项目，`publish` 会为必填视觉证据保留待复核状态。
 
+## 兼容性速览
+
+| 环境 | 状态 |
+| --- | --- |
+| Python / DXF | 已实现，不要求安装 AutoCAD |
+| Windows 完整版 AutoCAD 2023 | 原生出图已实测 |
+| AutoCAD 2021 / 其他版本 | 原生验收待验证 |
+| AutoCAD LT | 实验性 DXF 交换，LT 2027 实机验收待完成 |
+| macOS | 不支持 Windows COM 原生路径，纯 DXF 流程尚未独立验证 |
+
 ## 开发计划
 
 - [x] AutoCAD 二维绘图与验收
@@ -69,6 +115,10 @@ py -3 -m venv .venv-v120
 - [ ] Revit BIM 建模
 
 后续功能尚未集成，具体支持范围见 [验证记录](references/validation.md)。
+
+## 开源成长记录
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Haruhi764/OmniCAD-Skill&type=Date)](https://star-history.com/#Haruhi764/OmniCAD-Skill&Date)
 
 ## 反馈与贡献
 
