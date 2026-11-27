@@ -156,6 +156,13 @@ py -3 -m venv .venv-v120
 
 项目采用 [MIT 许可证](LICENSE)，第三方许可见 [来源说明](references/provenance.md)。如果这个项目对你有帮助，欢迎 Star。
 
+
+## 用户社区与技术反馈
+
+**OmniCAD 官方技术交流群 · QQ 群号：`313181842`**
+
+欢迎加入交流群，讨论安装使用、问题反馈、软件兼容性测试及新功能建议。可复现的问题也欢迎提交至 [GitHub Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues)，附上 CAD 版本、操作系统及脱敏示例。请勿上传涉密图纸或许可证信息。
+
 ---
 
 <p align="center"><img src="assets/omnicad-precision-crystal.svg" width="96" alt="OmniCAD logo"></p>
