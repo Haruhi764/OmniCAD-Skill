@@ -16,7 +16,7 @@
 
 OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据明确的尺寸和绘图要求生成可编辑 DXF，并在支持的 AutoCAD 环境中输出 DWG 和 PDF。
 
-[快速安装](#安装与快速开始) · [使用说明](SKILL.md) · [更新日志](CHANGELOG.md)
+[快速安装](#安装与快速开始) · [工程案例](#工程案例--drawing-portfolio) · [证据驱动](#证据驱动--evidence-driven)
 
 **V1.2.0** 增加原生任务超时与检查点、五类专业图纸验收、逐页打印对照。适用范围和升级方法见[安装与兼容性](references/install-v12.md)。
 
@@ -26,16 +26,17 @@ OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据
 
 <p align="center"><sub>真实 OmniCAD 生成的 DXF 几何动画回放与 OQA 验收展示，非 AutoCAD 实时录屏。</sub></p>
 
-## 实际制图案例
+## 工程案例 · Drawing Portfolio
 
-真实 AutoCAD 2023 出图，使用仓库中的合成参数，可复现而非概念渲染。
+以下为 AutoCAD 2023 原生出图，使用仓库公开的合成参数复现。点击图纸可查看原图。
 
-| 阶梯传动轴 | 带凸台法兰 |
+| 01 / 阶梯传动轴 | 02 / 带凸台法兰 |
 | :---: | :---: |
-| ![阶梯轴](examples/previews/shaft-c.png) | ![法兰](examples/previews/flange-b.png) |
-| [复现参数](examples/shaft-c.json) | [复现参数](examples/flange-b.json) |
+| [![阶梯轴工程图](examples/previews/shaft-c.png)](examples/previews/shaft-c.png) | [![法兰工程图](examples/previews/flange-b.png)](examples/previews/flange-b.png) |
+| 阶梯轮廓 · 剖视 · 尺寸 | 圆形轮廓 · 孔位阵列 · 剖视 |
+| [原始参数](examples/shaft-c.json) · [验证记录](references/validation.md) | [原始参数](examples/flange-b.json) · [验证记录](references/validation.md) |
 
-其他实践方向：工业车间布置、工艺流程图、建筑屋面排水图。客户图纸暂不公开。
+其他实践方向包括工业车间布置、工艺流程图及建筑屋面排水图。客户图纸不公开。
 
 ## 证据驱动 · Evidence-Driven
 
@@ -68,7 +69,18 @@ OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据
 
 ## 安装与快速开始
 
-需要 Python 3.10+。建议使用独立虚拟环境。纯 DXF 使用基础包即可。PDF、图片预检使用 `intake` 附加依赖。原生 DWG/PDF 依赖 Windows、已授权 AutoCAD、可用的出图设置和字体。Poppler 用于 PDF 渲染。
+**Codex 用户从这里开始。**
+
+1. 下载 [V1.2.0 Release 安装包](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0)，按[安装指南](references/install-v12.md)核对文件哈希。
+2. 按指南在独立的 Python 3.10+ 环境安装 CLI。
+3. 将含 [SKILL.md](SKILL.md) 的源码文件夹启用到 Codex 支持的 Skill 目录，每次只启用一个同名版本。
+
+[下载正式版](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) · [安装 / 升级 / 回滚](references/install-v12.md) · [LT 实验性方案](references/lt-compatibility.md)
+
+<details>
+<summary><strong>开发者复现示例 — 生成、验收与原生出图</strong></summary>
+
+以下为 Windows 示例，使用 Python 3.10+ 独立环境：
 
 ```bash
 git clone --branch v1.2.0 --depth 1 https://github.com/Haruhi764/OmniCAD-Skill.git
@@ -81,7 +93,9 @@ py -3 -m venv .venv-v120
 .venv-v120/Scripts/python.exe -m omnicad publish work-c.json work-c.dxf native-c --verify-native
 ```
 
-也可从 [Release](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) 下载含 wheel 的完整 ZIP。已有 V1.1 用户可按[升级与回滚说明](references/install-v12.md) 并行验证新版本。CLI 与 [Codex Skill](SKILL.md) 可分别安装。验收包含人工项目，`publish` 会为必填视觉证据保留待复核状态。
+</details>
+
+纯 DXF 不依赖 AutoCAD；PDF 与图片预检使用 `intake` 附加依赖。原生 DWG/PDF 需要已授权的 Windows 完整版 AutoCAD 及可用出图配置。Poppler 用于渲染对照，正式交付仍需要视觉与专业复核。
 
 ## 兼容性速览
 
