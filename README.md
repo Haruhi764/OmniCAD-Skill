@@ -145,7 +145,7 @@ py -3 -m venv .venv-v120
 
 - [x] AutoCAD 二维绘图与验收
 - [ ] AutoCAD LT 兼容（Experimental，可选 DXF 交换。LT 2027 实机验收待完成）
-- [ ] SolidWorks 建模与装配
+- [x] SolidWorks 建模与装配 — [独立项目 OmniSolidWorks Skill](https://github.com/Haruhi764/OmniSolidWorks-Skill)
 - [ ] Revit BIM 建模
 
 后续功能尚未集成，具体支持范围见 [验证记录](references/validation.md)。
@@ -170,3 +170,11 @@ py -3 -m venv .venv-v120
 <p align="center"><img src="assets/omnicad-precision-crystal.svg" width="96" alt="OmniCAD logo"></p>
 <p align="center"><strong>OmniCAD · Draft / Verify / Deliver</strong></p>
 <p align="center"><a href="CONTRIBUTING.md">参与贡献</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/issues">问题反馈</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/releases">版本下载</a></p>
+
+## Omni 系列 · Two dimensions, one philosophy
+
+| <img src="assets/omnicad-precision-crystal.svg" width="88" alt="OmniCAD"> | <a href="https://github.com/Haruhi764/OmniSolidWorks-Skill"><img src="https://raw.githubusercontent.com/Haruhi764/OmniSolidWorks-Skill/main/assets/brand/omnisw-logo.svg" width="88" alt="OmniSolidWorks"></a> |
+| :---: | :---: |
+| **OmniCAD** | **[OmniSolidWorks](https://github.com/Haruhi764/OmniSolidWorks-Skill)** |
+| 二维工程制图 · Draft / Verify / Deliver | 三维机械建模 · Model / Assemble / Verify |
+
