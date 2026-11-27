@@ -159,6 +159,8 @@ Open an [issue](https://github.com/Haruhi764/OmniCAD-Skill/issues) with your sof
 
 ## Community & Support
 
+<p align="center"><img src="assets/omnicad-community-card.svg" width="560" alt="OmniCAD official QQ community — 313181842"></p>
+
 **OmniCAD official QQ technical community — `313181842`**
 
 Join the group for installation questions, bug reports, compatibility testing and feature suggestions. For reproducible issues, please also use [GitHub Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues), including your CAD version, operating system and sanitized examples. Do not share confidential drawings or license information.
