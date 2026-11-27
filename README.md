@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/omnicad-banner.svg" alt="OmniCAD — editable 2D CAD and evidence-led verification" width="100%"></p>
+<p align="center"><img src="assets/omnicad-precision-hero.svg" alt="OmniCAD — editable 2D CAD and evidence-led verification" width="100%"></p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-1683b8?style=flat-square" alt="MIT"></a>
@@ -40,7 +40,7 @@ OmniCAD 是我为 Codex 开发的开源 AI CAD 自动绘图 Skill，结合可编
 
 ## 证据驱动 · Evidence-Driven
 
-<p align="center"><img src="assets/evidence-driven.svg" alt="证据驱动：几何实测、验收门槛与可追溯交付" width="100%"></p>
+<p align="center"><img src="assets/omnicad-evidence-crystal.svg" alt="证据驱动：几何实测、验收门槛与可追溯交付" width="100%"></p>
 
 图纸看起来正确，尺寸却可能存在错误。OmniCAD 将经过确认的工程要求与实际测量结果进行比对，而不是依赖图纸的外观或 AI 的自我评价。
 
@@ -158,6 +158,6 @@ py -3 -m venv .venv-v120
 
 ---
 
-<p align="center"><img src="assets/omnicad-logo.svg" width="48" alt="OmniCAD logo"></p>
+<p align="center"><img src="assets/omnicad-precision-crystal.svg" width="96" alt="OmniCAD logo"></p>
 <p align="center"><strong>OmniCAD · Draft / Verify / Deliver</strong></p>
 <p align="center"><a href="CONTRIBUTING.md">参与贡献</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/issues">问题反馈</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/releases">版本下载</a></p>
