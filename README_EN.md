@@ -39,39 +39,25 @@ Other drafting experience includes industrial layouts, process diagrams and roof
 
 ## Evidence-driven engineering
 
-**A drawing that looks right is not necessarily a drawing that passes.**
+<p align="center"><img src="assets/evidence-driven.svg" alt="Evidence-driven CAD: geometric measurement, acceptance gates and traceable delivery" width="100%"></p>
 
-OmniCAD checks actual geometry and measurements against reviewed requirements, rather than relying on the agent's own confidence.
+A drawing can look right while its dimensions are wrong. OmniCAD verifies measured geometry against reviewed requirements, rather than trusting the drawing's appearance or the agent's own assessment.
 
-```mermaid
-flowchart LR
- A[Reviewed requirements] --> B[Editable CAD]
- B --> C[OQA evidence]
- C --> D{Acceptance}
- D -->|Failed| E[Correct and recheck]
- E --> B
- D -->|Pending| F[Collect missing evidence]
- F --> C
- D -->|Passed| G[Delivery]
-```
+| Evidence layer | Verification |
+| :--- | :--- |
+| **01 / Geometry & dimensions** | Entity structure, coordinates, lengths, radii, closure and measured dimensions versus displayed values. |
+| **02 / Native CAD & publication** | DWG reopening, reversible editing, DXF readback, PDF structure, paper size and independent replot comparison. |
+| **03 / Traceability & review** | Artifact hashes, visual evidence and unresolved engineering requirements. |
 
-| Evidence | What is checked |
-| --- | --- |
-| Geometry | Entity structure, coordinates, lengths, radii and closure |
-| Dimensions | Actual measurements versus displayed values |
-| Native CAD | DWG reopening, reversible editing and DXF readback |
-| Publication | PDF structure, paper size and independent replot comparison |
-| Review | Artifact hashes, visual evidence and unresolved engineering questions |
+**A hard failure cannot be offset by a high score. Missing required evidence remains pending.** Automated checks do not replace professional engineering review.
 
-**Hard failures cannot be offset by a high quality score. Missing required evidence remains pending.** Human engineering review is still necessary.
+#### V1.2.0 · Recorded evidence
 
-### Evidence center · V1.2.0
-
-| 43 offline tests | AutoCAD 2023 | 5 acceptance profiles |
+| **43** offline tests | **AutoCAD 2023** | **5** acceptance profiles |
 | :---: | :---: | :---: |
-| Windows / Python 3.12 | Native bracket smoke test | Mechanical, civil, architecture, food process, workshop layout |
+| Windows · Python 3.12 | Native bracket smoke test | Mechanical · Civil · Architecture · Food process · Workshop layout |
 
-[Recorded test results](references/validation.md) · [Acceptance rules and reproducible commands](references/acceptance-v12.md)
+[Validation records ↗](references/validation.md) &nbsp; · &nbsp; [Acceptance rules & reproduction ↗](references/acceptance-v12.md)
 
 ## Features
 
