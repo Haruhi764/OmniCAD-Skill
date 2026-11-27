@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="530" viewBox="0 0 1200 530" role="img" aria-labelledby="title desc">
+<title id="title">OmniCAD evidence-driven verification</title>
+<desc id="desc">Illustrative CAD geometry and acceptance logic: compare measured geometry against requirements, correct failures, collect missing evidence and release only when required checks pass.</desc>
+<defs>
+  <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#284154" stroke-width=".7"/></pattern>
+  <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V8" stroke="#5b8298" stroke-width="1"/></pattern>
+  <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5 0 7Z" fill="#82d4fa"/></marker>
+</defs>
+<rect x="1" y="1" width="1198" height="528" rx="14" fill="#0b1724" stroke="#324c60" stroke-width="2"/>
+<g font-family="Arial,Helvetica,sans-serif">
+<g transform="translate(38 15) scale(.21)"><rect x="1" y="1" width="158" height="158" rx="30" fill="#0b1724" stroke="#34556b" stroke-width="2"/><g fill="none" stroke-linejoin="round"><path d="M80 23L129.36 51.5V108.5L80 137 30.64 108.5V51.5Z" stroke="#547c94" stroke-width="1.4"/><circle cx="80" cy="80" r="45" stroke="#547c94" stroke-width="1" stroke-dasharray="2 4"/><path d="M111.82 48.18A45 45 0 1 0 111.82 111.82" stroke="#e6f4fc" stroke-width="6" stroke-linecap="square"/><path d="M103.33 56.67A33 33 0 1 0 103.33 103.33" stroke="#82d4fa" stroke-width="3.5" stroke-linecap="square"/><g stroke-linejoin="round"><path d="M80 58L99.05 69V91L80 102 60.95 91V69Z" stroke="#82d4fa" stroke-width="2"/><path d="M80 58L99.05 69 80 80 60.95 69Z" fill="#82d4fa" fill-opacity=".25" stroke="none"/><path d="M80 58V80L99.05 91M60.95 91L80 80" stroke="#e6f4fc" stroke-width="1.5"/><circle cx="80" cy="80" r="2.5" fill="#e6f4fc" stroke="none"/></g><path d="M80 12V23M80 137V148M19 80H30.64M129.36 80H141" stroke="#82d4fa" stroke-width="1.5"/><path d="M80 27V34M80 126V133M27 80H34M126 80H133" stroke="#82d4fa" stroke-width="1"/></g><g fill="#82d4fa"><rect x="77.5" y="20.5" width="5" height="5"/><rect x="77.5" y="134.5" width="5" height="5"/><rect x="28.14" y="77.5" width="5" height="5"/><rect x="126.86" y="77.5" width="5" height="5"/></g></g><text x="83" y="40" fill="#82d4fa" font-size="14" font-weight="700" letter-spacing="3">OMNICAD / VERIFICATION SYSTEM</text>
+<text x="1162" y="40" fill="#a7bac9" font-size="13" text-anchor="end" letter-spacing="2">METHOD / 01</text>
+<text x="36" y="90" fill="#f3f8fc" font-size="43" font-weight="700">Evidence-driven engineering</text>
+<text x="38" y="119" fill="#a7bac9" font-size="19">Measure the geometry. Check the requirements. Preserve the evidence.</text>
+<path d="M38 140H1162" stroke="#344d60"/>
+<rect x="38" y="158" width="653" height="247" rx="6" fill="#0e2030" stroke="#344d60"/>
+<rect x="39" y="159" width="651" height="245" rx="5" fill="url(#grid)"/>
+<text x="58" y="184" fill="#82d4fa" font-size="13" font-weight="700" letter-spacing="2">01 / GEOMETRY &amp; DIMENSIONS</text>
+<text x="671" y="184" fill="#9aafbf" font-size="12" text-anchor="end">SCHEMATIC</text>
+<g fill="none" stroke-linejoin="round">
+  <path d="M105 254H196V225H383V244H526V260H609V302H526V318H383V337H196V308H105Z" stroke="#dcecf7" stroke-width="2.5" fill="#152d40"/>
+  <path d="M196 225H383V244H526V260H609V281H196Z" fill="url(#hatch)" stroke="none" opacity=".55"/>
+  <path d="M196 225V337M383 225V337M526 244V318" stroke="#dcecf7" stroke-width="1.5"/>
+  <path d="M78 281H637" stroke="#73b2d3" stroke-width="1" stroke-dasharray="15 5 3 5"/>
+  <path d="M105 311V366M609 305V366" stroke="#82d4fa" stroke-width="1"/>
+  <path d="M105 358H609" stroke="#82d4fa" stroke-width="1.2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <path d="M383 225V208H514" stroke="#82d4fa" stroke-width="1.2"/>
+  <circle cx="383" cy="225" r="4" fill="#82d4fa" stroke="none"/>
+</g>
+<text x="522" y="212" fill="#82d4fa" font-size="14">Entity boundary</text>
+<rect x="271" y="346" width="172" height="23" rx="3" fill="#0e2030"/>
+<text x="357" y="363" fill="#82d4fa" text-anchor="middle" font-size="15" font-weight="700">Actual measurement</text>
+<text x="58" y="389" fill="#b7cbd9" font-size="14">Compare measured values with the reviewed contract, not label text alone.</text>
+<rect x="709" y="158" width="453" height="247" rx="6" fill="#101e2c" stroke="#344d60"/>
+<text x="729" y="184" fill="#82d4fa" font-size="13" font-weight="700" letter-spacing="2">02 / ACCEPTANCE GATE</text>
+<rect x="729" y="198" width="413" height="51" rx="4" fill="#152637" stroke="#30485b"/><rect x="729" y="198" width="4" height="51" rx="2" fill="#f4ad9c"/><text x="745" y="218" fill="#f4ad9c" font-size="13" font-weight="700" letter-spacing="1.3">FAILED</text><text x="745" y="236" fill="#b7cbd9" font-size="13">Hard error</text><text x="1126" y="228" fill="#e2edf4" font-size="15" text-anchor="end">Correct and recheck</text><rect x="729" y="258" width="413" height="51" rx="4" fill="#152637" stroke="#30485b"/><rect x="729" y="258" width="4" height="51" rx="2" fill="#f1cd87"/><text x="745" y="278" fill="#f1cd87" font-size="13" font-weight="700" letter-spacing="1.3">PENDING</text><text x="745" y="296" fill="#b7cbd9" font-size="13">Missing evidence</text><text x="1126" y="288" fill="#e2edf4" font-size="15" text-anchor="end">Collect / review</text><rect x="729" y="318" width="413" height="51" rx="4" fill="#152637" stroke="#30485b"/><rect x="729" y="318" width="4" height="51" rx="2" fill="#8dd9b7"/><text x="745" y="338" fill="#8dd9b7" font-size="13" font-weight="700" letter-spacing="1.3">PASSED</text><text x="745" y="356" fill="#b7cbd9" font-size="13">Required checks satisfied</text><text x="1126" y="348" fill="#e2edf4" font-size="15" text-anchor="end">Eligible for delivery</text>
+<path d="M38 427H1162" stroke="#344d60"/>
+<text x="38" y="453" fill="#82d4fa" font-size="12" font-weight="700" letter-spacing="2">01</text><text x="66" y="454" fill="#eaf3fa" font-size="17" font-weight="700" letter-spacing="1">REQUIREMENTS</text><text x="66" y="477" fill="#a7bac9" font-size="15">Reviewed constraints</text><path d="M283 454h22m-5-5 5 5-5 5" fill="none" stroke="#52758b" stroke-width="1.5"/><text x="330" y="453" fill="#82d4fa" font-size="12" font-weight="700" letter-spacing="2">02</text><text x="358" y="454" fill="#eaf3fa" font-size="17" font-weight="700" letter-spacing="1">DRAFT</text><text x="358" y="477" fill="#a7bac9" font-size="15">Editable CAD entities</text><path d="M575 454h22m-5-5 5 5-5 5" fill="none" stroke="#52758b" stroke-width="1.5"/><text x="622" y="453" fill="#82d4fa" font-size="12" font-weight="700" letter-spacing="2">03</text><text x="650" y="454" fill="#eaf3fa" font-size="17" font-weight="700" letter-spacing="1">VERIFY</text><text x="650" y="477" fill="#a7bac9" font-size="15">OQA / native / review</text><path d="M867 454h22m-5-5 5 5-5 5" fill="none" stroke="#52758b" stroke-width="1.5"/><text x="914" y="453" fill="#82d4fa" font-size="12" font-weight="700" letter-spacing="2">04</text><text x="942" y="454" fill="#eaf3fa" font-size="17" font-weight="700" letter-spacing="1">DELIVER</text><text x="942" y="477" fill="#a7bac9" font-size="15">Drawing + evidence</text>
+<text x="38" y="510" fill="#829bad" font-size="12" letter-spacing=".5">WORKFLOW ILLUSTRATION / NOT A TEST REPORT OR A DRAWING TO SCALE</text>
+<text x="1162" y="510" fill="#829bad" font-size="12" text-anchor="end">HUMAN ENGINEERING REVIEW REQUIRED</text>
+</g></svg>
