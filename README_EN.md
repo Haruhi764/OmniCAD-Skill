@@ -10,7 +10,7 @@
 
 <h1 align="center">OmniCAD-Skill — AI CAD Automation &amp; Automatic CAD Drawing</h1>
 
-<p align="center"><strong>Editable engineering drawings. Verifiable results.</strong></p>
+<p align="center"><strong>Don't just draw. Verify with evidence.</strong></p>
 
 <p align="center"><a href="README.md">中文</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">Workflow</a> · <a href="references/validation.md">Validation</a> · <a href="CHANGELOG.md">Changelog</a></p>
 
@@ -37,6 +37,42 @@ Native AutoCAD 2023 plots from reproducible synthetic repository inputs, not con
 
 Other drafting experience includes industrial layouts, process diagrams and roof drainage plans. Client drawings are not public.
 
+## Evidence-driven engineering
+
+**A drawing that looks right is not necessarily a drawing that passes.**
+
+OmniCAD checks actual geometry and measurements against reviewed requirements, rather than relying on the agent's own confidence.
+
+```mermaid
+flowchart LR
+ A[Reviewed requirements] --> B[Editable CAD]
+ B --> C[OQA evidence]
+ C --> D{Acceptance}
+ D -->|Failed| E[Correct and recheck]
+ E --> B
+ D -->|Pending| F[Collect missing evidence]
+ F --> C
+ D -->|Passed| G[Delivery]
+```
+
+| Evidence | What is checked |
+| --- | --- |
+| Geometry | Entity structure, coordinates, lengths, radii and closure |
+| Dimensions | Actual measurements versus displayed values |
+| Native CAD | DWG reopening, reversible editing and DXF readback |
+| Publication | PDF structure, paper size and independent replot comparison |
+| Review | Artifact hashes, visual evidence and unresolved engineering questions |
+
+**Hard failures cannot be offset by a high quality score. Missing required evidence remains pending.** Human engineering review is still necessary.
+
+### Evidence center · V1.2.0
+
+| 43 offline tests | AutoCAD 2023 | 5 acceptance profiles |
+| :---: | :---: | :---: |
+| Windows / Python 3.12 | Native bracket smoke test | Mechanical, civil, architecture, food process, workshop layout |
+
+[Recorded test results](references/validation.md) · [Acceptance rules and reproducible commands](references/acceptance-v12.md)
+
 ## Features
 
 - Architectural and civil 2D drafting: grids, walls, openings, components and annotations.
@@ -61,6 +97,16 @@ py -3 -m venv .venv-v120
 
 The [release ZIP](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0) includes an installable wheel. Follow the [side-by-side upgrade and rollback guide](references/install-v12.md) if you use V1.1. Install the folder containing [SKILL.md](SKILL.md) in a supported local skill directory to use it from Codex.
 
+## Compatibility at a glance
+
+| Environment | Status |
+| --- | --- |
+| Python DXF workflow | Implemented; no AutoCAD required |
+| Full AutoCAD 2023 on Windows | Native publication tested |
+| AutoCAD 2021 / other versions | Native verification pending |
+| AutoCAD LT | Experimental DXF exchange; native LT 2027 verification pending |
+| macOS | Native Windows COM route unavailable; local DXF workflow not independently verified |
+
 ## Roadmap
 
 - [x] AutoCAD 2D drafting and verification
@@ -69,6 +115,10 @@ The [release ZIP](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0
 - [ ] Revit BIM modeling
 
 Planned integrations are not part of the current release. See [validation](references/validation.md) for tested scope.
+
+## Project growth
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Haruhi764/OmniCAD-Skill&type=Date)](https://star-history.com/#Haruhi764/OmniCAD-Skill&Date)
 
 ## Feedback and contributions
 
