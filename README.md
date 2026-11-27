@@ -116,10 +116,6 @@ py -3 -m venv .venv-v120
 
 后续功能尚未集成，具体支持范围见 [验证记录](references/validation.md)。
 
-## 开源成长记录
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Haruhi764/OmniCAD-Skill&type=Date)](https://star-history.com/#Haruhi764/OmniCAD-Skill&Date)
-
 ## 反馈与贡献
 
 欢迎提交 [Issue](https://github.com/Haruhi764/OmniCAD-Skill/issues)，附软件版本及脱敏复现。现有绘图工作流见 [V1.1 文档](references/v11.md)，类型验收见 [V1.2 验收说明](references/acceptance-v12.md)，LT 用户可选用 [Experimental 测试包](references/lt-compatibility.md)。贡献方式见 [CONTRIBUTING.md](CONTRIBUTING.md)。二维工程图仍需人工专业复核。
