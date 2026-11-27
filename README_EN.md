@@ -14,9 +14,9 @@
 
 <p align="center"><a href="README.md">中文</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">Workflow</a> · <a href="references/validation.md">Validation</a> · <a href="CHANGELOG.md">Changelog</a></p>
 
-OmniCAD is an open-source CAD automation skill for Codex. Generate editable DXF from reviewed dimensions and drafting requirements, and publish DWG and PDF in supported AutoCAD environments.
+OmniCAD is an open-source CAD automation skill for Codex, combining editable 2D DXF drafting, scoped drawing revisions and evidence-driven engineering QA (OQA). It can publish native DWG and PDF through supported full AutoCAD on Windows. Its Python DXF workflow does not require AutoCAD.
 
-[Quick start](#quick-start) · [Drawing portfolio](#drawing-portfolio) · [Evidence-driven engineering](#evidence-driven-engineering)
+[Quick start](#quick-start) · [Drawing portfolio](#drawing-portfolio) · [Evidence-driven engineering](#evidence-driven-engineering) · [Evidence index](references/evidence-index.md)
 
 **V1.2.0** adds bounded native jobs, hash-verified checkpoints, acceptance profiles for five drawing disciplines, and page-by-page print comparison. See [installation and compatibility](references/install-v12.md).
 
@@ -33,7 +33,7 @@ Native AutoCAD 2023 plots reproduced from synthetic repository inputs. Click eit
 | 01 / Transmission shaft | 02 / Boss flange |
 | :---: | :---: |
 | [![Stepped shaft engineering drawing](examples/previews/shaft-c.png)](examples/previews/shaft-c.png) | [![Flange engineering drawing](examples/previews/flange-b.png)](examples/previews/flange-b.png) |
-| Stepped profile · sections · dimensions | Circular profile · hole pattern · section |
+| 240 mm overall · 5 lands · keyway and sections | Ø160 mm · Ø50 bore · 6 × Ø12 on PCD 120 |
 | [Source parameters](examples/shaft-c.json) · [Validation](references/validation.md) | [Source parameters](examples/flange-b.json) · [Validation](references/validation.md) |
 
 Other practical work includes industrial layouts, process diagrams and roof drainage plans. Private client drawings are not published.
@@ -52,13 +52,24 @@ A drawing can look right while its dimensions are wrong. OmniCAD verifies measur
 
 **A hard failure cannot be offset by a high score. Missing required evidence remains pending.** Automated checks do not replace professional engineering review.
 
+### Designed to detect failure, not just produce output
+
+| What can go wrong | How OmniCAD checks it |
+| --- | --- |
+| A dimension label is correct but its geometry is not | Compare measured native geometry with the reviewed contract. |
+| A requested edit changes unrelated entities | Compare same-lineage drawings against the allowed revision scope. |
+| A previously approved drawing is modified | Bind review evidence to artifact hashes; stale evidence cannot authorize delivery. |
+| AutoCAD stalls or returns an invalid artifact | Bound native execution, preserve checkpoints and require host review before circuit reset. |
+
+These are implemented regression scenarios, not new performance claims. See the [public evidence index](references/evidence-index.md) for source parameters, relevant test files and verification boundaries.
+
 #### V1.2.0 · Recorded evidence
 
 | **43** offline tests | **AutoCAD 2023** | **5** acceptance profiles |
 | :---: | :---: | :---: |
-| Windows · Python 3.12 | Native bracket smoke test | Mechanical · Civil · Architecture · Food process · Workshop layout |
+| Release record · Windows / Python 3.12 | Native bracket smoke test | Mechanical · Civil · Architecture · Food process · Workshop layout |
 
-[Validation records ↗](references/validation.md) &nbsp; · &nbsp; [Acceptance rules & reproduction ↗](references/acceptance-v12.md)
+[Validation records](references/validation.md) · [Acceptance rules](references/acceptance-v12.md) · [Live CI status](https://github.com/Haruhi764/OmniCAD-Skill/actions)
 
 ## Features
 
@@ -106,6 +117,29 @@ The base package supports DXF without AutoCAD. PDF and image intake use the `int
 | AutoCAD 2021 / other versions | Native verification pending |
 | AutoCAD LT | Experimental DXF exchange; native LT 2027 verification pending |
 | macOS | Native Windows COM route unavailable; local DXF workflow not independently verified |
+
+## Frequently asked questions
+
+<details>
+<summary><strong>Can I use OmniCAD without AutoCAD?</strong></summary>
+
+Yes, for the Python-based editable DXF workflow. Native DWG/PDF publication is a separate workflow requiring a supported Windows AutoCAD installation.
+
+</details>
+
+<details>
+<summary><strong>Can it revise existing drawings?</strong></summary>
+
+Scoped revisions of supported DXF entities and same-lineage drawing comparisons are implemented. Arbitrary legacy DWG editing and preservation of all proprietary objects are not guaranteed.
+
+</details>
+
+<details>
+<summary><strong>Does it support simulation, 3D assembly, BIM or CNC?</strong></summary>
+
+These are not established capabilities of the current release. OmniCAD focuses on editable 2D drawings and their verification.
+
+</details>
 
 ## Roadmap
 
