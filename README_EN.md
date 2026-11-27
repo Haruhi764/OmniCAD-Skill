@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/omnicad-banner.svg" alt="OmniCAD — editable 2D CAD and evidence-led verification" width="100%"></p>
+<p align="center"><img src="assets/omnicad-precision-hero.svg" alt="OmniCAD — editable 2D CAD and evidence-led verification" width="100%"></p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-1683b8?style=flat-square" alt="MIT"></a>
@@ -40,7 +40,7 @@ Other practical work includes industrial layouts, process diagrams and roof drai
 
 ## Evidence-driven engineering
 
-<p align="center"><img src="assets/evidence-driven.svg" alt="Evidence-driven CAD: geometric measurement, acceptance gates and traceable delivery" width="100%"></p>
+<p align="center"><img src="assets/omnicad-evidence-crystal.svg" alt="Evidence-driven CAD: geometric measurement, acceptance gates and traceable delivery" width="100%"></p>
 
 A drawing can look right while its dimensions are wrong. OmniCAD verifies measured geometry against reviewed requirements, rather than trusting the drawing's appearance or the agent's own assessment.
 
@@ -158,6 +158,6 @@ Open an [issue](https://github.com/Haruhi764/OmniCAD-Skill/issues) with your sof
 
 ---
 
-<p align="center"><img src="assets/omnicad-logo.svg" width="48" alt="OmniCAD logo"></p>
+<p align="center"><img src="assets/omnicad-precision-crystal.svg" width="96" alt="OmniCAD logo"></p>
 <p align="center"><strong>OmniCAD · Draft / Verify / Deliver</strong></p>
 <p align="center"><a href="CONTRIBUTING.md">Contribute</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/issues">Report an issue</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/releases">Releases</a></p>
