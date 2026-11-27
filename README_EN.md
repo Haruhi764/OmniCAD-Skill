@@ -116,10 +116,6 @@ The [release ZIP](https://github.com/Haruhi764/OmniCAD-Skill/releases/tag/v1.2.0
 
 Planned integrations are not part of the current release. See [validation](references/validation.md) for tested scope.
 
-## Project growth
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Haruhi764/OmniCAD-Skill&type=Date)](https://star-history.com/#Haruhi764/OmniCAD-Skill&Date)
-
 ## Feedback and contributions
 
 Open an [issue](https://github.com/Haruhi764/OmniCAD-Skill/issues) with your software version and a sanitized reproduction. See the [existing workflow](references/v11.md), [V1.2 acceptance guide](references/acceptance-v12.md) and [contribution guide](CONTRIBUTING.md). AutoCAD LT users are invited to try the [Experimental kit](references/lt-compatibility.md). Engineering judgment requires human review.
