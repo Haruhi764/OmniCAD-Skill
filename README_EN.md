@@ -145,7 +145,7 @@ These are not established capabilities of the current release. OmniCAD focuses o
 
 - [x] AutoCAD 2D drafting and verification
 - [ ] AutoCAD LT compatibility (Experimental opt-in DXF exchange, LT 2027 native verification pending)
-- [ ] SolidWorks modeling and assemblies
+- [x] SolidWorks modeling and assembly — [standalone OmniSolidWorks Skill](https://github.com/Haruhi764/OmniSolidWorks-Skill)
 - [ ] Revit BIM modeling
 
 Planned integrations are not part of the current release. See [validation](references/validation.md) for tested scope.
@@ -170,3 +170,11 @@ Join the group for installation questions, bug reports, compatibility testing an
 <p align="center"><img src="assets/omnicad-precision-crystal.svg" width="96" alt="OmniCAD logo"></p>
 <p align="center"><strong>OmniCAD · Draft / Verify / Deliver</strong></p>
 <p align="center"><a href="CONTRIBUTING.md">Contribute</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/issues">Report an issue</a> · <a href="https://github.com/Haruhi764/OmniCAD-Skill/releases">Releases</a></p>
+
+## Omni family · Two dimensions, one philosophy
+
+| <img src="assets/omnicad-precision-crystal.svg" width="88" alt="OmniCAD"> | <a href="https://github.com/Haruhi764/OmniSolidWorks-Skill"><img src="https://raw.githubusercontent.com/Haruhi764/OmniSolidWorks-Skill/main/assets/brand/omnisw-logo.svg" width="88" alt="OmniSolidWorks"></a> |
+| :---: | :---: |
+| **OmniCAD** | **[OmniSolidWorks](https://github.com/Haruhi764/OmniSolidWorks-Skill)** |
+| 2D engineering drawings · Draft / Verify / Deliver | 3D mechanical design · Model / Assemble / Verify |
+
