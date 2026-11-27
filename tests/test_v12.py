@@ -111,7 +111,10 @@ class CapabilityTests(unittest.TestCase):
             out=root/"out"
             args=cli.parser().parse_args(["publish",str(job),str(seed),str(out),
                                           "--product","lt","--year","2027","--backend","exchange","--experimental-lt"])
-            with patch("omnicad.supervisor.execute",side_effect=AssertionError("No COM for LT")):
+            # Explicitly model a requested Windows LT host on every CI runner.
+            with patch("omnicad.capabilities.installed_windows", return_value=[]), \
+                    patch("omnicad.capabilities.sys.platform", "win32"), \
+                    patch("omnicad.supervisor.execute",side_effect=AssertionError("No COM for LT")):
                 result,status=cli.run(args)
             self.assertEqual(status,2)
             self.assertEqual(result["status"],"awaiting_native")
@@ -126,6 +129,33 @@ class CapabilityTests(unittest.TestCase):
             (out/"seed.dxf").write_bytes(b"tampered")
             with self.assertRaisesRegex(ValueError,"changed"):
                 exchange.verify(out)
+
+    def test_lt_cli_exchange_non_windows(self):
+        for platform in ("linux", "darwin"):
+            with self.subTest(platform=platform), temp() as t:
+                root = Path(t)
+                job = ROOT / "examples" / "bracket.json"
+                seed = root / "sample.dxf"
+                dxf.save_new(dxf.build(load(job)), seed)
+                before = records.digest(seed)
+                out = root / "out"
+                args = cli.parser().parse_args([
+                    "publish", str(job), str(seed), str(out),
+                    "--product", "lt", "--year", "2027", "--backend",
+                    "exchange", "--experimental-lt"])
+                with patch("omnicad.capabilities.installed_windows", return_value=[]), \
+                        patch("omnicad.capabilities.sys.platform", platform), \
+                        patch("omnicad.supervisor.execute", side_effect=AssertionError("No COM for LT")):
+                    result, status = cli.run(args)
+                self.assertEqual(status, 2)
+                self.assertEqual(result["status"], "awaiting_native")
+                self.assertEqual(result["scripts"], [])
+                self.assertFalse(result["native_verified"])
+                self.assertTrue((out / "seed.dxf").is_file())
+                self.assertFalse((out / "save-as-dwg.scr").exists())
+                self.assertFalse((out / "inspect-session.scr").exists())
+                self.assertEqual(records.digest(seed), before)
+                self.assertEqual(exchange.verify(out)["status"], "awaiting_native")
 
     def test_pre_lisp_manual_exchange(self):
         with temp() as t:
