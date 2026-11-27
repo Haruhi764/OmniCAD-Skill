@@ -14,9 +14,9 @@
 
 <p align="center"><a href="README_EN.md">English</a> · <a href="SKILL.md">Agent Skill</a> · <a href="references/v11.md">工作流</a> · <a href="references/validation.md">验收记录</a> · <a href="CHANGELOG.md">更新日志</a></p>
 
-OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据明确的尺寸和绘图要求生成可编辑 DXF，并在支持的 AutoCAD 环境中输出 DWG 和 PDF。
+OmniCAD 是我为 Codex 开发的开源 AI CAD 自动绘图 Skill，结合可编辑二维 DXF 制图、限定范围的图纸修改和证据驱动工程验收（OQA）。纯 Python DXF 工作流不依赖 AutoCAD；Windows 完整版 AutoCAD 可用于原生 DWG、PDF 出图。
 
-[快速安装](#安装与快速开始) · [工程案例](#工程案例--drawing-portfolio) · [证据驱动](#证据驱动--evidence-driven)
+[快速安装](#安装与快速开始) · [工程案例](#工程案例--drawing-portfolio) · [证据驱动](#证据驱动--evidence-driven) · [技术证据索引](references/evidence-index.md)
 
 **V1.2.0** 增加原生任务超时与检查点、五类专业图纸验收、逐页打印对照。适用范围和升级方法见[安装与兼容性](references/install-v12.md)。
 
@@ -33,7 +33,7 @@ OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据
 | 01 / 阶梯传动轴 | 02 / 带凸台法兰 |
 | :---: | :---: |
 | [![阶梯轴工程图](examples/previews/shaft-c.png)](examples/previews/shaft-c.png) | [![法兰工程图](examples/previews/flange-b.png)](examples/previews/flange-b.png) |
-| 阶梯轮廓 · 剖视 · 尺寸 | 圆形轮廓 · 孔位阵列 · 剖视 |
+| 总长 240 mm · 五段轴径 · 键槽与剖视 | 外径 160 mm · 孔径 50 mm · 6 × Ø12 / PCD 120 |
 | [原始参数](examples/shaft-c.json) · [验证记录](references/validation.md) | [原始参数](examples/flange-b.json) · [验证记录](references/validation.md) |
 
 其他实践方向包括工业车间布置、工艺流程图及建筑屋面排水图。客户图纸不公开。
@@ -52,13 +52,24 @@ OmniCAD 是我为 Codex 开发的开源 CAD 自动绘图 Skill。它可以根据
 
 **硬性错误不能靠高分抵消，缺少必要证据则保持待验收状态。** 自动检查不替代人工专业复核。
 
+### 不只验证成功，更要能识别失败
+
+| 常见失效场景 | OmniCAD 如何检查 |
+| --- | --- |
+| 标注数字正确，实际几何却不一致 | 将原生尺寸实测值与已确认的约束比对。 |
+| 局部修改误伤其他图元 | 对同源图纸执行差异检查，核对允许修改的范围。 |
+| 已审查的图纸又被修改 | 将复核证据与成果哈希绑定，旧证据不能授权新图纸交付。 |
+| AutoCAD 卡死或返回无效成果 | 限定原生任务执行时间，保留检查点，复核环境后再重置保护机制。 |
+
+以上是已有回归测试场景，不是新增的性能宣传数据。[技术证据索引](references/evidence-index.md) 汇总公开参数、测试源码和验证边界。
+
 #### V1.2.0 · 实际验证记录
 
 | **43** 项离线测试 | **AutoCAD 2023** | **5** 类专业验收 |
 | :---: | :---: | :---: |
-| Windows · Python 3.12 | 原生支架样例实测 | 机械 · 土木 · 建筑 · 食品工艺 · 车间布置 |
+| 正式版历史记录 · Windows / Python 3.12 | 原生支架样例实测 | 机械 · 土木 · 建筑 · 食品工艺 · 车间布置 |
 
-[实际验证记录 ↗](references/validation.md) &nbsp; · &nbsp; [验收规则与复现命令 ↗](references/acceptance-v12.md)
+[实际验证记录](references/validation.md) · [验收规则与复现命令](references/acceptance-v12.md) · [当前 CI 状态](https://github.com/Haruhi764/OmniCAD-Skill/actions)
 
 ## 目前支持
 
@@ -106,6 +117,29 @@ py -3 -m venv .venv-v120
 | AutoCAD 2021 / 其他版本 | 原生验收待验证 |
 | AutoCAD LT | 实验性 DXF 交换，LT 2027 实机验收待完成 |
 | macOS | 不支持 Windows COM 原生路径，纯 DXF 流程尚未独立验证 |
+
+## 常见问题
+
+<details>
+<summary><strong>没有安装 AutoCAD 可以使用吗？</strong></summary>
+
+可以使用基于 Python 的可编辑 DXF 工作流。原生 DWG/PDF 出图是独立流程，需要受支持的 Windows AutoCAD 环境。
+
+</details>
+
+<details>
+<summary><strong>可以修改已有图纸吗？</strong></summary>
+
+支持限定范围的 DXF 图元修改及同源图纸差异检查，不保证任意历史 DWG 的完整编辑和专有对象保留。
+
+</details>
+
+<details>
+<summary><strong>支持仿真、三维装配、BIM 或 CNC 编程吗？</strong></summary>
+
+这些不是当前正式版已确认的能力。OmniCAD 目前专注于可编辑二维工程制图与验收。
+
+</details>
 
 ## 开发计划
 
