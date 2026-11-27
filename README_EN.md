@@ -156,6 +156,13 @@ Open an [issue](https://github.com/Haruhi764/OmniCAD-Skill/issues) with your sof
 
 [MIT license](LICENSE) · [Third-party provenance](references/provenance.md). Star the project if you find it useful.
 
+
+## Community & Support
+
+**OmniCAD official QQ technical community — `313181842`**
+
+Join the group for installation questions, bug reports, compatibility testing and feature suggestions. For reproducible issues, please also use [GitHub Issues](https://github.com/Haruhi764/OmniCAD-Skill/issues), including your CAD version, operating system and sanitized examples. Do not share confidential drawings or license information.
+
 ---
 
 <p align="center"><img src="assets/omnicad-precision-crystal.svg" width="96" alt="OmniCAD logo"></p>
